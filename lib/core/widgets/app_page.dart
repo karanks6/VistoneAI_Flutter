@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../theme/app_colors.dart';
 
 /// A restrained, reusable wash of colour that stops the app background from
@@ -61,7 +62,7 @@ class _BlurredDisc extends StatelessWidget {
   }
 }
 
-class AppIconButton extends StatelessWidget {
+class AppIconButton extends StatefulWidget {
   final IconData icon;
   final VoidCallback onTap;
   final String? semanticLabel;
@@ -76,27 +77,56 @@ class AppIconButton extends StatelessWidget {
   });
 
   @override
+  State<AppIconButton> createState() => _AppIconButtonState();
+}
+
+class _AppIconButtonState extends State<AppIconButton> {
+  bool _pressed = false;
+
+  @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final fill = inverted
-        ? AppColors.textInverse.withValues(alpha: .14)
+    final fill = widget.inverted
+        ? AppColors.textInverse.withValues(alpha: .15)
         : (isDark ? AppColors.nightSurfaceRaised : AppColors.surface);
-    final foreground = inverted
+    final foreground = widget.inverted
         ? AppColors.textInverse
         : (isDark ? AppColors.nightText : AppColors.ink);
+    final border = widget.inverted
+        ? Border.all(color: AppColors.textInverse.withValues(alpha: .18), width: 1)
+        : Border.all(color: isDark ? AppColors.nightLine : AppColors.line, width: 1);
+
     return Semantics(
       button: true,
-      label: semanticLabel,
-      child: Material(
-        color: fill,
-        shape: const CircleBorder(),
-        child: InkWell(
-          onTap: onTap,
-          customBorder: const CircleBorder(),
-          child: SizedBox(
-            width: 46,
-            height: 46,
-            child: Icon(icon, size: 20, color: foreground),
+      label: widget.semanticLabel,
+      child: AnimatedScale(
+        duration: const Duration(milliseconds: 110),
+        scale: _pressed ? 0.90 : 1.0,
+        curve: Curves.easeOutCubic,
+        child: Container(
+          width: 46,
+          height: 46,
+          decoration: BoxDecoration(
+            color: fill,
+            shape: BoxShape.circle,
+            border: border,
+          ),
+          child: Material(
+            color: Colors.transparent,
+            shape: const CircleBorder(),
+            child: InkWell(
+              onTap: () {
+                HapticFeedback.lightImpact();
+                widget.onTap();
+              },
+              onTapDown: (_) => setState(() => _pressed = true),
+              onTapCancel: () => setState(() => _pressed = false),
+              onTapUp: (_) => setState(() => _pressed = false),
+              customBorder: const CircleBorder(),
+              child: Center(
+                child: Icon(widget.icon, size: 20, color: foreground),
+              ),
+            ),
           ),
         ),
       ),

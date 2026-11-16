@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radii.dart';
 import '../theme/app_shadows.dart';
 
-class AppCard extends StatelessWidget {
+class AppCard extends StatefulWidget {
   final Widget child;
   final EdgeInsetsGeometry padding;
   final double radius;
@@ -24,30 +25,57 @@ class AppCard extends StatelessWidget {
   });
 
   @override
+  State<AppCard> createState() => _AppCardState();
+}
+
+class _AppCardState extends State<AppCard> {
+  bool _pressed = false;
+
+  @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bg = backgroundColor ?? Theme.of(context).cardTheme.color ?? AppColors.surface;
-    final border = borderColor ?? (isDark ? AppColors.nightLine : AppColors.line);
-    final shadow = boxShadow ?? AppShadows.card;
+    final bg = widget.backgroundColor ?? Theme.of(context).cardTheme.color ?? AppColors.surface;
+    final border = widget.borderColor ?? (isDark ? AppColors.nightLine : AppColors.line);
+    final shadow = widget.boxShadow ?? AppShadows.card;
 
-    return Container(
+    final content = AnimatedContainer(
+      duration: const Duration(milliseconds: 140),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(radius),
+        borderRadius: BorderRadius.circular(widget.radius),
         border: Border.all(color: border, width: 1),
-        boxShadow: shadow,
+        boxShadow: _pressed ? AppShadows.cardActive : shadow,
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(radius),
+          onTap: widget.onTap != null
+              ? () {
+                  HapticFeedback.selectionClick();
+                  widget.onTap!();
+                }
+              : null,
+          onTapDown: widget.onTap != null ? (_) => setState(() => _pressed = true) : null,
+          onTapCancel: widget.onTap != null ? () => setState(() => _pressed = false) : null,
+          onTapUp: widget.onTap != null ? (_) => setState(() => _pressed = false) : null,
+          borderRadius: BorderRadius.circular(widget.radius),
+          splashColor: AppColors.clay.withValues(alpha: 0.08),
+          highlightColor: AppColors.clay.withValues(alpha: 0.04),
           child: Padding(
-            padding: padding,
-            child: child,
+            padding: widget.padding,
+            child: widget.child,
           ),
         ),
       ),
+    );
+
+    if (widget.onTap == null) return content;
+
+    return AnimatedScale(
+      duration: const Duration(milliseconds: 120),
+      scale: _pressed ? 0.985 : 1.0,
+      curve: Curves.easeOutCubic,
+      child: content,
     );
   }
 }
