@@ -12,6 +12,14 @@ class AppShadows {
         ),
       ];
 
+  static List<BoxShadow> get cardActive => [
+        BoxShadow(
+          color: AppColors.ink.withValues(alpha: 0.12),
+          blurRadius: 16,
+          offset: const Offset(0, 6),
+        ),
+      ];
+
   static List<BoxShadow> get raisedAction => [
         BoxShadow(
           color: AppColors.clay.withValues(alpha: 0.28),

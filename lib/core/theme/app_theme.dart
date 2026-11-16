@@ -3,6 +3,110 @@ import 'app_colors.dart';
 import 'app_typography.dart';
 import 'app_radii.dart';
 
+@immutable
+class VistoneThemeTokens extends ThemeExtension<VistoneThemeTokens> {
+  final Color cardBackground;
+  final Color cardRaised;
+  final Color cardBorder;
+  final Color subtleBorder;
+  final Color glassFill;
+  final Color glassBorder;
+  final Color accentTerracotta;
+  final Color accentBotanical;
+  final Color accentGold;
+  final Color tagBackground;
+  final Color tagText;
+
+  const VistoneThemeTokens({
+    required this.cardBackground,
+    required this.cardRaised,
+    required this.cardBorder,
+    required this.subtleBorder,
+    required this.glassFill,
+    required this.glassBorder,
+    required this.accentTerracotta,
+    required this.accentBotanical,
+    required this.accentGold,
+    required this.tagBackground,
+    required this.tagText,
+  });
+
+  @override
+  VistoneThemeTokens copyWith({
+    Color? cardBackground,
+    Color? cardRaised,
+    Color? cardBorder,
+    Color? subtleBorder,
+    Color? glassFill,
+    Color? glassBorder,
+    Color? accentTerracotta,
+    Color? accentBotanical,
+    Color? accentGold,
+    Color? tagBackground,
+    Color? tagText,
+  }) {
+    return VistoneThemeTokens(
+      cardBackground: cardBackground ?? this.cardBackground,
+      cardRaised: cardRaised ?? this.cardRaised,
+      cardBorder: cardBorder ?? this.cardBorder,
+      subtleBorder: subtleBorder ?? this.subtleBorder,
+      glassFill: glassFill ?? this.glassFill,
+      glassBorder: glassBorder ?? this.glassBorder,
+      accentTerracotta: accentTerracotta ?? this.accentTerracotta,
+      accentBotanical: accentBotanical ?? this.accentBotanical,
+      accentGold: accentGold ?? this.accentGold,
+      tagBackground: tagBackground ?? this.tagBackground,
+      tagText: tagText ?? this.tagText,
+    );
+  }
+
+  @override
+  VistoneThemeTokens lerp(ThemeExtension<VistoneThemeTokens>? other, double t) {
+    if (other is! VistoneThemeTokens) return this;
+    return VistoneThemeTokens(
+      cardBackground: Color.lerp(cardBackground, other.cardBackground, t)!,
+      cardRaised: Color.lerp(cardRaised, other.cardRaised, t)!,
+      cardBorder: Color.lerp(cardBorder, other.cardBorder, t)!,
+      subtleBorder: Color.lerp(subtleBorder, other.subtleBorder, t)!,
+      glassFill: Color.lerp(glassFill, other.glassFill, t)!,
+      glassBorder: Color.lerp(glassBorder, other.glassBorder, t)!,
+      accentTerracotta: Color.lerp(accentTerracotta, other.accentTerracotta, t)!,
+      accentBotanical: Color.lerp(accentBotanical, other.accentBotanical, t)!,
+      accentGold: Color.lerp(accentGold, other.accentGold, t)!,
+      tagBackground: Color.lerp(tagBackground, other.tagBackground, t)!,
+      tagText: Color.lerp(tagText, other.tagText, t)!,
+    );
+  }
+
+  static const light = VistoneThemeTokens(
+    cardBackground: AppColors.surface,
+    cardRaised: AppColors.surfaceWarm,
+    cardBorder: AppColors.line,
+    subtleBorder: AppColors.line,
+    glassFill: Color(0xCCFFFEFA),
+    glassBorder: Color(0x33E4E1D9),
+    accentTerracotta: AppColors.clay,
+    accentBotanical: AppColors.forest,
+    accentGold: AppColors.marigold,
+    tagBackground: AppColors.surfaceSage,
+    tagText: AppColors.forestDeep,
+  );
+
+  static const dark = VistoneThemeTokens(
+    cardBackground: AppColors.nightSurface,
+    cardRaised: AppColors.nightSurfaceRaised,
+    cardBorder: AppColors.nightLine,
+    subtleBorder: AppColors.nightLine,
+    glassFill: Color(0xCC182522),
+    glassBorder: Color(0x3334443E),
+    accentTerracotta: AppColors.clay,
+    accentBotanical: AppColors.sage,
+    accentGold: AppColors.marigold,
+    tagBackground: AppColors.nightSurfaceRaised,
+    tagText: AppColors.sage,
+  );
+}
+
 class AppTheme {
   AppTheme._();
 
@@ -17,6 +121,7 @@ class AppTheme {
     );
     final surface = isDark ? AppColors.nightSurface : AppColors.surface;
     final outline = isDark ? AppColors.nightLine : AppColors.line;
+    final tokens = isDark ? VistoneThemeTokens.dark : VistoneThemeTokens.light;
 
     return ThemeData(
       useMaterial3: true,
@@ -33,6 +138,7 @@ class AppTheme {
         surface: surface,
         onSurface: isDark ? AppColors.nightText : AppColors.ink,
       ),
+      extensions: [tokens],
       textTheme: text,
       dividerColor: outline,
       splashFactory: InkSparkle.splashFactory,
