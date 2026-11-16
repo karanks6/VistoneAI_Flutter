@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -20,300 +21,358 @@ class ResultScreen extends ConsumerWidget {
       return const _ResultLoading();
     }
     final result = state.result;
+    final dark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       body: AppPageBackdrop(
         child: SafeArea(
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 640),
               child: CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverPadding(
-                padding: const EdgeInsets.fromLTRB(24, 16, 24, 34),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate.fixed([
-                    _Header(
-                      onBack: () => context.go('/home'),
+                    padding: const EdgeInsets.fromLTRB(20, 14, 20, 36),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate.fixed([
+                        _ResultHeader(
+                          onBack: () => context.go('/home'),
+                          onShare: () {
+                            HapticFeedback.lightImpact();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Palette summary: Monk Tone ${result.tone} (${result.undertone}) · ${result.bestColors.length} signature shades ready.',
+                                ),
+                                duration: const Duration(seconds: 3),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                        _ResultMasterCard(
+                          image: image,
+                          tone: result.tone,
+                          undertone: result.undertone,
+                          monkColors: result.monkColors,
+                        )
+                            .animate()
+                            .fadeIn(duration: 500.ms)
+                            .slideY(begin: 0.08, end: 0, curve: Curves.easeOutCubic),
+                        const SizedBox(height: AppSpacing.lg),
+                        _MetricsRow(
+                          toneConfidence: result.toneConfidence,
+                          undertoneConfidence: result.utConfidence,
+                        ).animate().fadeIn(delay: 150.ms).slideY(begin: 0.05),
+                        const SizedBox(height: AppSpacing.lg),
+                        MonkScaleSlider(
+                          monkColors: result.monkColors,
+                          detectedTone: result.tone,
+                        ).animate().fadeIn(delay: 220.ms).slideY(begin: 0.05),
+                        const SizedBox(height: AppSpacing.section),
+                        _UndertoneAdvisory(undertone: result.undertone)
+                            .animate()
+                            .fadeIn(delay: 280.ms),
+                        const SizedBox(height: AppSpacing.section),
+                        _SwatchesGroup(
+                          title: 'Shades to Reach For',
+                          subtitle: 'Wear near your face to brighten your natural complexion.',
+                          label: 'SIGNATURE HARMONIES',
+                          icon: LucideIcons.sparkles,
+                          swatches: result.bestColors,
+                          undertone: result.undertone,
+                          isAvoid: false,
+                        ),
+                        const SizedBox(height: AppSpacing.section),
+                        _SwatchesGroup(
+                          title: 'Shades to Pause On',
+                          subtitle: 'Can compete with your undertone. Wear as trousers or accessories instead.',
+                          label: 'STYLE AWAY FROM FACE',
+                          icon: LucideIcons.minusCircle,
+                          swatches: result.avoidColors,
+                          undertone: result.undertone,
+                          isAvoid: true,
+                        ),
+                        const SizedBox(height: AppSpacing.section),
+                        SizedBox(
+                          width: double.infinity,
+                          child: AppPrimaryButton(
+                            label: 'Analyse another photo',
+                            icon: LucideIcons.refreshCw,
+                            onPressed: () {
+                              ref.read(analysisProvider.notifier).reset();
+                              context.go('/home');
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Center(
+                          child: Text(
+                            'Your personal colouring is unique. Use this palette as your creative playground.',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  color: dark ? AppColors.nightMuted : AppColors.textTertiary,
+                                ),
+                          ),
+                        ),
+                      ]),
                     ),
-                    const SizedBox(height: 28),
-                    _ResultHero(image: image, tone: result.tone, undertone: result.undertone)
-                        .animate()
-                        .fadeIn(duration: 520.ms)
-                        .slideY(begin: .08, end: 0, curve: Curves.easeOutCubic),
-                    const SizedBox(height: 18),
-                    _ConfidencePanel(
-                      toneConfidence: result.toneConfidence,
-                      undertoneConfidence: result.utConfidence,
-                    ).animate().fadeIn(delay: 180.ms).slideY(begin: .06),
-                    const SizedBox(height: 18),
-                    MonkScaleSlider(monkColors: result.monkColors, detectedTone: result.tone)
-                        .animate()
-                        .fadeIn(delay: 240.ms)
-                        .slideY(begin: .06),
-                    const SizedBox(height: AppSpacing.section),
-                    _ResultNote(undertone: result.undertone).animate().fadeIn(delay: 300.ms),
-                    const SizedBox(height: AppSpacing.section),
-                    _PaletteSection(
-                      title: 'Your palette, at a glance.',
-                      label: 'SHADES TO REACH FOR',
-                      icon: LucideIcons.sparkles,
-                      swatches: result.bestColors,
-                      undertone: result.undertone,
-                    ),
-                    const SizedBox(height: AppSpacing.section),
-                    _PaletteSection(
-                      title: 'A little less often.',
-                      label: 'SHADES TO PAUSE ON',
-                      icon: LucideIcons.minusCircle,
-                      swatches: result.avoidColors,
-                      undertone: result.undertone,
-                      isAvoid: true,
-                    ),
-                    const SizedBox(height: AppSpacing.section),
-                    SizedBox(
-                      width: double.infinity,
-                      child: AppPrimaryButton(
-                        label: 'Analyse another photo',
-                        icon: LucideIcons.refreshCw,
-                        onPressed: () {
-                          ref.read(analysisProvider.notifier).reset();
-                          context.go('/home');
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    Text(
-                      'Your colouring is yours alone — use this as a creative starting point.',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ]),
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
-    ),
-  ),
-);
-  }
-}
-
-class _ResultLoading extends StatelessWidget {
-  const _ResultLoading();
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: AppPageBackdrop(
-          child: Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary)),
-        ),
-      );
-}
-
-class _Header extends StatelessWidget {
-  final VoidCallback onBack;
-  const _Header({required this.onBack});
-  @override
-  Widget build(BuildContext context) => Row(
-        children: [
-          AppIconButton(icon: LucideIcons.arrowLeft, semanticLabel: 'Return home', onTap: onBack),
-          const Spacer(),
-          Text('YOUR COLOUR STORY', style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textTertiary)),
-          const Spacer(),
-          const SizedBox(width: 44),
-        ],
-      );
-}
-
-class _ResultHero extends StatelessWidget {
-  final File? image;
-  final int tone;
-  final String undertone;
-  const _ResultHero({required this.image, required this.tone, required this.undertone});
-
-  @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.sizeOf(context).height;
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: AppColors.forestDeep,
-        borderRadius: BorderRadius.circular(AppRadii.hero),
-        boxShadow: AppShadows.card,
-      ),
-      child: Column(
-        children: [
-          SizedBox(
-            height: (screenHeight * 0.28).clamp(200.0, 300.0),
-            width: double.infinity,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  if (image != null)
-                    Image.file(image!, fit: BoxFit.cover)
-                  else
-                    const ColoredBox(color: AppColors.sage),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, AppColors.forestDeep.withValues(alpha: .94)],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 16,
-                    left: 16,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                      decoration: BoxDecoration(
-                        color: AppColors.textInverse.withValues(alpha: .15),
-                        borderRadius: BorderRadius.circular(AppRadii.pill),
-                        border: Border.all(color: AppColors.textInverse.withValues(alpha: .18)),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(LucideIcons.badgeCheck, size: 14, color: AppColors.marigold),
-                          const SizedBox(width: 6),
-                          Text('ANALYSIS COMPLETE', style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textInverse)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 22,
-                    right: 22,
-                    bottom: 20,
-                    child: Text('Your natural palette', style: Theme.of(context).textTheme.displaySmall?.copyWith(color: AppColors.textInverse)),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  _ToneBadge(tone: tone),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('$undertone undertone', style: Theme.of(context).textTheme.titleLarge?.copyWith(color: AppColors.textInverse)),
-                        const SizedBox(height: 3),
-                        Text('Balanced to your individual light and hue.', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.nightMuted)),
-                      ],
-                    ),
-                  ),
-                  const Icon(LucideIcons.sparkles, color: AppColors.marigold),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-  }
-}
-
-class _ToneBadge extends StatelessWidget {
-  final int tone;
-  const _ToneBadge({required this.tone});
-  @override
-  Widget build(BuildContext context) => Container(
-        width: 64,
-        height: 64,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: AppColors.marigold,
-          borderRadius: BorderRadius.circular(19),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('MONK', style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.forestDeep)),
-            Text('$tone', style: Theme.of(context).textTheme.titleLarge?.copyWith(color: AppColors.forestDeep, fontSize: 26, height: 1.1)),
-          ],
-        ),
-      );
-}
-
-class _ConfidencePanel extends StatelessWidget {
-  final double toneConfidence;
-  final double undertoneConfidence;
-  const _ConfidencePanel({required this.toneConfidence, required this.undertoneConfidence});
-
-  @override
-  Widget build(BuildContext context) {
-    final dark = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-      decoration: BoxDecoration(
-        color: dark ? AppColors.nightSurfaceRaised : AppColors.surface,
-        borderRadius: BorderRadius.circular(AppRadii.lg),
-        border: Border.all(color: dark ? AppColors.nightLine : AppColors.line),
-      ),
-      child: Row(
-        children: [
-          _Metric(label: 'TONE MATCH', value: toneConfidence),
-          Container(width: 1, height: 38, color: dark ? AppColors.nightLine : AppColors.line),
-          _Metric(label: 'UNDERTONE', value: undertoneConfidence),
-        ],
       ),
     );
   }
 }
 
-class _Metric extends StatelessWidget {
-  final String label;
-  final double value;
-  const _Metric({required this.label, required this.value});
+class _ResultLoading extends StatelessWidget {
+  const _ResultLoading();
+
   @override
-  Widget build(BuildContext context) => Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('${(value.clamp(0, 1) * 100).round()}%', style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).colorScheme.primary)),
-            const SizedBox(height: 3),
-            Text(label, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textTertiary)),
-          ],
+  Widget build(BuildContext context) => Scaffold(
+        body: AppPageBackdrop(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(color: Theme.of(context).colorScheme.primary),
+                const SizedBox(height: 16),
+                Text('Preparing your color profile...', style: Theme.of(context).textTheme.bodyMedium),
+              ],
+            ),
+          ),
         ),
       );
 }
 
-class _ResultNote extends StatelessWidget {
+class _ResultHeader extends StatelessWidget {
+  final VoidCallback onBack;
+  final VoidCallback onShare;
+
+  const _ResultHeader({required this.onBack, required this.onShare});
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          AppIconButton(icon: LucideIcons.arrowLeft, semanticLabel: 'Return home', onTap: onBack),
+          const SizedBox(width: 14),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'YOUR COLOUR PROFILE',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      letterSpacing: 1.4,
+                      fontWeight: FontWeight.w800,
+                    ),
+              ),
+              Text(
+                'Monk Skin Tone Calibration',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textTertiary),
+              ),
+            ],
+          ),
+          const Spacer(),
+          AppIconButton(
+            icon: LucideIcons.share2,
+            semanticLabel: 'Share palette summary',
+            onTap: onShare,
+          ),
+        ],
+      );
+}
+
+class _ResultMasterCard extends StatelessWidget {
+  final File? image;
+  final int tone;
   final String undertone;
-  const _ResultNote({required this.undertone});
+  final List<String> monkColors;
+
+  const _ResultMasterCard({
+    required this.image,
+    required this.tone,
+    required this.undertone,
+    required this.monkColors,
+  });
+
+  Color _toneColor() {
+    if (tone >= 1 && tone <= monkColors.length) {
+      final hex = monkColors[tone - 1].replaceAll('#', '').padLeft(6, '0');
+      return Color(int.parse('FF$hex', radix: 16));
+    }
+    return AppColors.marigold;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final screenHeight = MediaQuery.sizeOf(context).height;
+    final toneColor = _toneColor();
+
     return Container(
-      padding: const EdgeInsets.all(20),
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: isDark ? AppColors.nightSurfaceRaised : AppColors.surfaceSage,
-        borderRadius: BorderRadius.circular(AppRadii.lg),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          IconContainer(
-            icon: LucideIcons.leaf,
-            backgroundColor: isDark ? AppColors.nightLine : AppColors.forest,
-            iconColor: isDark ? AppColors.sage : AppColors.textInverse,
+        color: AppColors.forestDeep,
+        borderRadius: BorderRadius.circular(AppRadii.hero),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.28),
+            blurRadius: 26,
+            offset: const Offset(0, 10),
           ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        ],
+      ),
+      child: Column(
+        children: [
+          // Selfie crop with high-fashion gradient
+          SizedBox(
+            height: (screenHeight * 0.28).clamp(210.0, 320.0),
+            width: double.infinity,
+            child: Stack(
+              fit: StackFit.expand,
               children: [
-                Text('What this means for you', style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 5),
-                Text(
-                  'Your $undertone undertone gives us a useful starting point for choosing colour contrast and warmth — never a set of rules.',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: isDark ? AppColors.nightMuted : AppColors.inkSoft),
+                if (image != null)
+                  Image.file(image!, fit: BoxFit.cover)
+                else
+                  const ColoredBox(color: AppColors.sage),
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        AppColors.forestDeep.withValues(alpha: 0.95),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: AppColors.night.withValues(alpha: 0.65),
+                      borderRadius: BorderRadius.circular(AppRadii.pill),
+                      border: Border.all(
+                        color: AppColors.textInverse.withValues(alpha: 0.2),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(LucideIcons.badgeCheck, size: 14, color: AppColors.marigold),
+                        const SizedBox(width: 6),
+                        Text(
+                          'ANALYSIS VERIFIED',
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                color: AppColors.textInverse,
+                                letterSpacing: 1.1,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 20,
+                  right: 20,
+                  bottom: 18,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Your Natural Palette',
+                        style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                              color: AppColors.textInverse,
+                              fontSize: 28,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Tone & undertone spotlight
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                // Tone chip
+                Container(
+                  width: 66,
+                  height: 66,
+                  decoration: BoxDecoration(
+                    color: toneColor,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.textInverse.withValues(alpha: 0.3), width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: toneColor.withValues(alpha: 0.5),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'MST',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: AppColors.night,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 10,
+                            ),
+                      ),
+                      Text(
+                        '$tone'.padLeft(2, '0'),
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: AppColors.night,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 24,
+                              height: 1.05,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            '$undertone Undertone',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  color: AppColors.textInverse,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                          ),
+                          const SizedBox(width: 6),
+                          const Icon(LucideIcons.sparkle, size: 16, color: AppColors.marigold),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        'Harmonized with your biological light reflection and depth.',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: AppColors.nightMuted,
+                              height: 1.35,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -324,57 +383,213 @@ class _ResultNote extends StatelessWidget {
   }
 }
 
-class _PaletteSection extends StatelessWidget {
+class _MetricsRow extends StatelessWidget {
+  final double toneConfidence;
+  final double undertoneConfidence;
+
+  const _MetricsRow({
+    required this.toneConfidence,
+    required this.undertoneConfidence,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
+
+    return AppCard(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      backgroundColor: dark ? AppColors.nightSurfaceRaised : AppColors.surface,
+      borderColor: dark ? AppColors.nightLine : AppColors.line,
+      child: Row(
+        children: [
+          _MetricItem(
+            label: 'TONE ACCURACY',
+            value: '${(toneConfidence.clamp(0, 1) * 100).round()}%',
+            sub: 'Monk Scale Match',
+          ),
+          Container(
+            width: 1,
+            height: 40,
+            color: dark ? AppColors.nightLine : AppColors.line,
+          ),
+          _MetricItem(
+            label: 'UNDERTONE PURITY',
+            value: '${(undertoneConfidence.clamp(0, 1) * 100).round()}%',
+            sub: 'Melanin Hue Balance',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MetricItem extends StatelessWidget {
+  final String label;
+  final String value;
+  final String sub;
+
+  const _MetricItem({
+    required this.label,
+    required this.value,
+    required this.sub,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            value,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 22,
+                ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: AppColors.textTertiary,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.0,
+                ),
+          ),
+          Text(
+            sub,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 10,
+                  color: AppColors.textTertiary,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _UndertoneAdvisory extends StatelessWidget {
+  final String undertone;
+
+  const _UndertoneAdvisory({required this.undertone});
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return AppCard(
+      padding: const EdgeInsets.all(18),
+      backgroundColor: isDark ? AppColors.nightSurfaceRaised : AppColors.surfaceSage,
+      borderColor: isDark ? AppColors.nightLine : AppColors.sage.withValues(alpha: 0.5),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IconContainer(
+            icon: LucideIcons.palette,
+            backgroundColor: isDark ? AppColors.nightLine : AppColors.forest,
+            iconColor: isDark ? AppColors.sage : AppColors.textInverse,
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'What this means for styling',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Your $undertone undertone harmonizes best with shades having similar color temperature. Tap any color swatch to enter the virtual draping studio.',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        height: 1.4,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SwatchesGroup extends StatelessWidget {
   final String title;
+  final String subtitle;
   final String label;
   final IconData icon;
   final List swatches;
   final String undertone;
   final bool isAvoid;
-  const _PaletteSection({
+
+  const _SwatchesGroup({
     required this.title,
+    required this.subtitle,
     required this.label,
     required this.icon,
     required this.swatches,
     required this.undertone,
-    this.isAvoid = false,
+    required this.isAvoid,
   });
 
   @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 18, color: isAvoid ? AppColors.clay : Theme.of(context).colorScheme.primary),
-              const SizedBox(width: 8),
-              Text(label, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: isAvoid ? AppColors.clay : Theme.of(context).colorScheme.primary)),
-            ],
-          ),
-          const SizedBox(height: 11),
-          Text(title, style: Theme.of(context).textTheme.displaySmall),
-          const SizedBox(height: 16),
-          SizedBox(
-            height: 194,
-            child: ListView.separated(
-              padding: const EdgeInsets.only(right: 4),
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              itemCount: swatches.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                final swatch = swatches[index];
-                return ColorSwatchCard(
-                  swatch: swatch,
-                  isAvoid: isAvoid,
-                  onTap: () => context.push(
-                    '/color-preview',
-                    extra: {'swatch': swatch, 'isAvoid': isAvoid, 'undertone': undertone},
+  Widget build(BuildContext context) {
+    final accentColor = isAvoid ? AppColors.clay : Theme.of(context).colorScheme.primary;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(icon, size: 16, color: accentColor),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: accentColor,
+                    letterSpacing: 1.3,
+                    fontWeight: FontWeight.w800,
                   ),
-                ).animate().fadeIn(delay: Duration(milliseconds: 60 * index)).slideX(begin: .08);
-              },
             ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text(title, style: Theme.of(context).textTheme.displaySmall),
+        const SizedBox(height: 4),
+        Text(
+          subtitle,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: AppColors.textTertiary,
+              ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 196,
+          child: ListView.separated(
+            padding: const EdgeInsets.only(right: 6),
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemCount: swatches.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (context, index) {
+              final swatch = swatches[index];
+              return ColorSwatchCard(
+                swatch: swatch,
+                isAvoid: isAvoid,
+                onTap: () => context.push(
+                  '/color-preview',
+                  extra: {'swatch': swatch, 'isAvoid': isAvoid, 'undertone': undertone},
+                ),
+              ).animate().fadeIn(delay: Duration(milliseconds: 60 * index)).slideX(begin: 0.08);
+            },
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
