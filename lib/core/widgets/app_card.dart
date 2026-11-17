@@ -73,7 +73,7 @@ class _AppCardState extends State<AppCard> {
 
     return AnimatedScale(
       duration: const Duration(milliseconds: 120),
-      scale: _pressed ? 0.985 : 1.0,
+      scale: _pressed ? 0.98 : 1.0,
       curve: Curves.easeOutCubic,
       child: content,
     );

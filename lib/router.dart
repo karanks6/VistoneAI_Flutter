@@ -12,14 +12,14 @@ CustomTransitionPage<void> _page(GoRouterState state, Widget child) {
   return CustomTransitionPage<void>(
     key: state.pageKey,
     child: child,
-    transitionDuration: const Duration(milliseconds: 420),
-    reverseTransitionDuration: const Duration(milliseconds: 300),
+    transitionDuration: const Duration(milliseconds: 250),
+    reverseTransitionDuration: const Duration(milliseconds: 200),
     transitionsBuilder: (context, animation, secondaryAnimation, page) {
       final curve = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
       return FadeTransition(
         opacity: curve,
         child: SlideTransition(
-          position: Tween<Offset>(begin: const Offset(0, .035), end: Offset.zero).animate(curve),
+          position: Tween<Offset>(begin: const Offset(0.04, 0), end: Offset.zero).animate(curve),
           child: page,
         ),
       );

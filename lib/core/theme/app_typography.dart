@@ -5,88 +5,89 @@ class AppTypography {
   AppTypography._();
 
   static TextTheme getTheme(Color displayColor, Color bodyColor) {
-    final body = GoogleFonts.manropeTextTheme();
+    final body = GoogleFonts.interTextTheme();
     return body.copyWith(
-      displayLarge: GoogleFonts.dmSerifDisplay(
-        fontSize: 48,
+      displayLarge: GoogleFonts.playfairDisplay(
+        fontSize: 42,
         fontWeight: FontWeight.w400,
-        height: 1.01,
-        letterSpacing: -1.2,
+        height: 1.08,
+        letterSpacing: -0.6,
         color: displayColor,
       ),
-      displayMedium: GoogleFonts.dmSerifDisplay(
-        fontSize: 38,
+      displayMedium: GoogleFonts.playfairDisplay(
+        fontSize: 34,
         fontWeight: FontWeight.w400,
-        height: 1.06,
-        letterSpacing: -0.7,
+        height: 1.12,
+        letterSpacing: -0.4,
         color: displayColor,
       ),
-      displaySmall: GoogleFonts.dmSerifDisplay(
-        fontSize: 31,
+      displaySmall: GoogleFonts.playfairDisplay(
+        fontSize: 28,
         fontWeight: FontWeight.w400,
-        height: 1.1,
-        color: displayColor,
-      ),
-      headlineMedium: GoogleFonts.dmSerifDisplay(
-        fontSize: 27,
-        fontWeight: FontWeight.w400,
-        height: 1.14,
-        color: displayColor,
-      ),
-      titleLarge: GoogleFonts.manrope(
-        fontSize: 20,
-        fontWeight: FontWeight.w700,
-        height: 1.2,
-        letterSpacing: -0.35,
-        color: displayColor,
-      ),
-      titleMedium: GoogleFonts.manrope(
-        fontSize: 16,
-        fontWeight: FontWeight.w700,
-        height: 1.28,
+        height: 1.15,
         letterSpacing: -0.2,
         color: displayColor,
       ),
-      titleSmall: GoogleFonts.manrope(
-        fontSize: 14,
-        fontWeight: FontWeight.w700,
+      headlineMedium: GoogleFonts.playfairDisplay(
+        fontSize: 24,
+        fontWeight: FontWeight.w400,
+        height: 1.18,
+        color: displayColor,
+      ),
+      titleLarge: GoogleFonts.inter(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        height: 1.25,
+        letterSpacing: -0.2,
+        color: displayColor,
+      ),
+      titleMedium: GoogleFonts.inter(
+        fontSize: 15,
+        fontWeight: FontWeight.w600,
+        height: 1.3,
+        letterSpacing: -0.1,
+        color: displayColor,
+      ),
+      titleSmall: GoogleFonts.inter(
+        fontSize: 13,
+        fontWeight: FontWeight.w600,
         height: 1.3,
         color: displayColor,
       ),
-      bodyLarge: GoogleFonts.manrope(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        height: 1.55,
-        color: bodyColor,
-      ),
-      bodyMedium: GoogleFonts.manrope(
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
+      bodyLarge: GoogleFonts.inter(
+        fontSize: 15,
+        fontWeight: FontWeight.w400,
         height: 1.5,
         color: bodyColor,
       ),
-      bodySmall: GoogleFonts.manrope(
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
+      bodyMedium: GoogleFonts.inter(
+        fontSize: 13.5,
+        fontWeight: FontWeight.w400,
         height: 1.45,
         color: bodyColor,
       ),
-      labelLarge: GoogleFonts.manrope(
-        fontSize: 14,
-        fontWeight: FontWeight.w800,
-        letterSpacing: -0.1,
+      bodySmall: GoogleFonts.inter(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        height: 1.4,
         color: bodyColor,
       ),
-      labelMedium: GoogleFonts.manrope(
-        fontSize: 12,
-        fontWeight: FontWeight.w800,
+      labelLarge: GoogleFonts.inter(
+        fontSize: 13.5,
+        fontWeight: FontWeight.w700,
         letterSpacing: 0.1,
         color: bodyColor,
       ),
-      labelSmall: GoogleFonts.manrope(
+      labelMedium: GoogleFonts.inter(
+        fontSize: 11.5,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.5,
+        color: bodyColor,
+      ),
+      labelSmall: GoogleFonts.inter(
         fontSize: 10,
-        fontWeight: FontWeight.w800,
-        letterSpacing: 1.15,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 1.2,
         color: bodyColor,
       ),
     );

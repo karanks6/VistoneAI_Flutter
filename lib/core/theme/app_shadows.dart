@@ -6,25 +6,25 @@ class AppShadows {
 
   static List<BoxShadow> get card => [
         BoxShadow(
-          color: AppColors.ink.withValues(alpha: 0.07),
-          blurRadius: 30,
-          offset: const Offset(0, 12),
+          color: AppColors.ink.withValues(alpha: 0.04),
+          blurRadius: 18,
+          offset: const Offset(0, 4),
         ),
       ];
 
   static List<BoxShadow> get cardActive => [
         BoxShadow(
-          color: AppColors.ink.withValues(alpha: 0.12),
-          blurRadius: 16,
-          offset: const Offset(0, 6),
+          color: AppColors.ink.withValues(alpha: 0.08),
+          blurRadius: 10,
+          offset: const Offset(0, 2),
         ),
       ];
 
   static List<BoxShadow> get raisedAction => [
         BoxShadow(
-          color: AppColors.clay.withValues(alpha: 0.28),
-          blurRadius: 24,
-          offset: const Offset(0, 12),
+          color: AppColors.clay.withValues(alpha: 0.22),
+          blurRadius: 16,
+          offset: const Offset(0, 6),
         ),
       ];
 }

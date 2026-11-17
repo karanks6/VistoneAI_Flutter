@@ -17,23 +17,32 @@ class AppPageBackdrop extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        ColoredBox(color: isDark ? AppColors.night : AppColors.canvas),
+        ColoredBox(color: isDark ? AppColors.night : const Color(0xFFFAF7F2)),
+        // Top right gentle botanical sage ambience
         Positioned(
-          top: -120,
-          right: -90,
+          top: -80,
+          right: -60,
           child: _BlurredDisc(
-            color: isDark ? AppColors.forest : AppColors.sageSoft,
-            size: 290,
+            color: isDark ? AppColors.forest.withValues(alpha: 0.3) : const Color(0xFFE5EFE7),
+            size: 320,
           ),
         ),
-        Positioned(
-          top: 370,
-          left: -150,
-          child: _BlurredDisc(
-            color: isDark ? AppColors.inkSoft : AppColors.claySoft,
-            size: 260,
+        // Middle right subtle flowing sage ribbon
+        if (!isDark)
+          Positioned(
+            top: 420,
+            right: 0,
+            child: IgnorePointer(
+              child: Opacity(
+                opacity: 0.75,
+                child: Image.asset(
+                  'assets/images/bg_wave_right_clean.png',
+                  width: 90,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
           ),
-        ),
         child,
       ],
     );
@@ -93,8 +102,14 @@ class _AppIconButtonState extends State<AppIconButton> {
         ? AppColors.textInverse
         : (isDark ? AppColors.nightText : AppColors.ink);
     final border = widget.inverted
-        ? Border.all(color: AppColors.textInverse.withValues(alpha: .18), width: 1)
-        : Border.all(color: isDark ? AppColors.nightLine : AppColors.line, width: 1);
+        ? Border.all(
+            color: AppColors.textInverse.withValues(alpha: .18),
+            width: 1,
+          )
+        : Border.all(
+            color: isDark ? AppColors.nightLine : AppColors.line,
+            width: 1,
+          );
 
     return Semantics(
       button: true,

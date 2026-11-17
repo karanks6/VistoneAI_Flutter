@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radii.dart';
-import '../theme/app_shadows.dart';
 
 class AppPrimaryButton extends StatefulWidget {
   final String label;
   final IconData? icon;
+  final IconData? trailingIcon;
   final VoidCallback? onPressed;
   final bool isLoading;
   final bool isEnabled;
@@ -17,6 +17,7 @@ class AppPrimaryButton extends StatefulWidget {
     super.key,
     required this.label,
     this.icon,
+    this.trailingIcon,
     this.onPressed,
     this.isLoading = false,
     this.isEnabled = true,
@@ -37,10 +38,10 @@ class _AppPrimaryButtonState extends State<AppPrimaryButton> with SingleTickerPr
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 110),
-      reverseDuration: const Duration(milliseconds: 140),
+      duration: const Duration(milliseconds: 120),
+      reverseDuration: const Duration(milliseconds: 150),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.965).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.97).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic, reverseCurve: Curves.easeOut),
     );
   }
@@ -74,9 +75,6 @@ class _AppPrimaryButtonState extends State<AppPrimaryButton> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     final bool active = widget.isEnabled && !widget.isLoading;
-    final bg = widget.backgroundColor ?? AppColors.clay;
-    final fg = widget.foregroundColor ?? AppColors.textInverse;
-
     return Semantics(
       button: true,
       enabled: active,
@@ -92,44 +90,71 @@ class _AppPrimaryButtonState extends State<AppPrimaryButton> with SingleTickerPr
             duration: const Duration(milliseconds: 180),
             opacity: active ? 1 : 0.45,
             child: Container(
-              height: 56,
+              height: 52,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                color: bg,
+                color: widget.backgroundColor ?? const Color(0xFF133E32),
                 borderRadius: BorderRadius.circular(AppRadii.pill),
-                boxShadow: active ? AppShadows.raisedAction : null,
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    bg.withValues(alpha: 0.98),
-                    bg,
-                  ],
-                ),
+                boxShadow: active
+                    ? [
+                        BoxShadow(
+                          color: (widget.backgroundColor ?? const Color(0xFF133E32)).withValues(alpha: 0.28),
+                          blurRadius: 16,
+                          offset: const Offset(0, 5),
+                        ),
+                      ]
+                    : null,
               ),
               child: Center(
                 child: widget.isLoading
-                    ? SizedBox(
+                    ? const SizedBox(
                         height: 20,
                         width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2.2,
-                          valueColor: AlwaysStoppedAnimation<Color>(fg),
+                          valueColor: AlwaysStoppedAnimation<Color>(AppColors.textInverse),
                         ),
                       )
                     : Row(
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: widget.trailingIcon != null
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.center,
                         children: [
-                          if (widget.icon != null) ...[
-                            Icon(widget.icon, color: fg, size: 19),
-                            const SizedBox(width: 9),
-                          ],
-                          Text(
-                            widget.label,
-                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                  color: fg,
-                                  letterSpacing: 0.3,
+                          Flexible(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (widget.icon != null) ...[
+                                  Icon(
+                                    widget.icon,
+                                    color: widget.foregroundColor ?? AppColors.textInverse,
+                                    size: 19,
+                                  ),
+                                  const SizedBox(width: 10),
+                                ],
+                                Flexible(
+                                  child: Text(
+                                    widget.label,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                          color: widget.foregroundColor ?? AppColors.textInverse,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15,
+                                        ),
+                                  ),
                                 ),
+                              ],
+                            ),
                           ),
+                          if (widget.trailingIcon != null) ...[
+                            const SizedBox(width: 8),
+                            Icon(
+                              widget.trailingIcon,
+                              color: widget.foregroundColor ?? AppColors.textInverse,
+                              size: 19,
+                            ),
+                          ],
                         ],
                       ),
               ),
