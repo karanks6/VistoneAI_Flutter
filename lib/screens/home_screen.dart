@@ -280,11 +280,13 @@ class _HomeHeader extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'assets/images/vistone_v_logo_transparent.png',
-              width: 32,
-              height: 30,
-              fit: BoxFit.contain,
+            ClipOval(
+              child: Image.asset(
+                'assets/images/vistone_logo_clean.png',
+                width: 34,
+                height: 34,
+                fit: BoxFit.contain,
+              ),
             ),
             const SizedBox(width: 10),
             Column(
@@ -442,7 +444,7 @@ class _HomeHero extends StatelessWidget {
             // Top right hero model illustration
             if (!isDark)
               Positioned(
-                top: -36,
+                top: 0,
                 right: -20,
                 width: imageWidth,
                 child: IgnorePointer(
