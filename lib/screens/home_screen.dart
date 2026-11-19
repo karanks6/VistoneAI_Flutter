@@ -72,23 +72,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
   }
 
-  void _previewPalette(
-    BuildContext context,
-    String name,
-    String subtitle,
-    List<Color> dots,
-  ) {
-    HapticFeedback.selectionClick();
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) =>
-          _PalettePreviewSheet(name: name, subtitle: subtitle, colors: dots),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -154,31 +137,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
                         const SizedBox(height: 28),
 
-                        // 3: Sample Palettes
+                        // 3: Preparation Guide
                         _StaggeredEntrance(
                           controller: _entranceController,
                           index: 3,
-                          child: _SamplePalettesSection(
-                            onPaletteTap: (name, sub, dots) =>
-                                _previewPalette(context, name, sub, dots),
-                          ),
-                        ),
-
-                        const SizedBox(height: 28),
-
-                        // 4: Preparation Guide
-                        _StaggeredEntrance(
-                          controller: _entranceController,
-                          index: 4,
                           child: const _PreparationGuideSection(),
                         ),
 
                         const SizedBox(height: 24),
 
-                        // 5: Info Card
+                        // 4: Info Card
                         _StaggeredEntrance(
                           controller: _entranceController,
-                          index: 5,
+                          index: 4,
                           child: _InfoCard(
                             onTap: () => _showGuideBottomSheet(context),
                           ),
@@ -186,10 +157,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
                         const SizedBox(height: 28),
 
-                        // 6: Footer
+                        // 5: Footer
                         _StaggeredEntrance(
                           controller: _entranceController,
-                          index: 6,
+                          index: 5,
                           child: Center(
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -206,11 +177,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                                 Text(
                                   'VISTONE AI · ON-DEVICE INFERENCE ENGINE',
                                   style: theme.textTheme.labelSmall?.copyWith(
-                                        color: isDark ? AppColors.nightMuted : const Color(0xFF7C8C84),
-                                        letterSpacing: 1.4,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 10,
-                                      ),
+                                    color: isDark
+                                        ? AppColors.nightMuted
+                                        : const Color(0xFF7C8C84),
+                                    letterSpacing: 1.4,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ],
                             ),
@@ -321,20 +294,24 @@ class _HomeHeader extends StatelessWidget {
                 Text(
                   'VISTONE AI',
                   style: theme.textTheme.labelMedium?.copyWith(
-                        letterSpacing: 2.0,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 13,
-                        color: isDark ? AppColors.nightText : const Color(0xFF152922),
-                      ),
+                    letterSpacing: 2.0,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 13,
+                    color: isDark
+                        ? AppColors.nightText
+                        : const Color(0xFF152922),
+                  ),
                 ),
                 const SizedBox(height: 1),
                 Text(
                   'Colour Studio',
                   style: theme.textTheme.bodySmall?.copyWith(
-                        color: isDark ? AppColors.nightMuted : const Color(0xFF5A6B63),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    color: isDark
+                        ? AppColors.nightMuted
+                        : const Color(0xFF5A6B63),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ],
             ),
@@ -419,7 +396,9 @@ class _CircleIconButtonState extends State<_CircleIconButton> {
             height: 40,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: isDark ? AppColors.nightSurface : Colors.white.withValues(alpha: 0.85),
+              color: isDark
+                  ? AppColors.nightSurface
+                  : Colors.white.withValues(alpha: 0.85),
               border: Border.all(
                 color: isDark ? AppColors.nightLine : const Color(0xFFDFE6E1),
                 width: 1.2,
@@ -498,12 +477,19 @@ class _HomeHero extends StatelessWidget {
                 children: [
                   // Eyebrow badge with green dot
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.nightSurfaceRaised : const Color(0xFFE5EFE7),
+                      color: isDark
+                          ? AppColors.nightSurfaceRaised
+                          : const Color(0xFFE5EFE7),
                       borderRadius: BorderRadius.circular(AppRadii.pill),
                       border: Border.all(
-                        color: isDark ? AppColors.nightLine : const Color(0xFFD6E5D9),
+                        color: isDark
+                            ? AppColors.nightLine
+                            : const Color(0xFFD6E5D9),
                         width: 1,
                       ),
                     ),
@@ -525,11 +511,13 @@ class _HomeHero extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.labelSmall?.copyWith(
-                                  color: isDark ? AppColors.sage : const Color(0xFF2E6B4F),
-                                  letterSpacing: 1.2,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 9.5,
-                                ),
+                              color: isDark
+                                  ? AppColors.sage
+                                  : const Color(0xFF2E6B4F),
+                              letterSpacing: 1.2,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 9.5,
+                            ),
                           ),
                         ),
                       ],
@@ -546,7 +534,9 @@ class _HomeHero extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         height: 1.1,
                         letterSpacing: -0.5,
-                        color: isDark ? AppColors.nightText : const Color(0xFF162D24),
+                        color: isDark
+                            ? AppColors.nightText
+                            : const Color(0xFF162D24),
                       ),
                       children: [
                         const TextSpan(text: 'Dress in your\n'),
@@ -558,7 +548,9 @@ class _HomeHero extends StatelessWidget {
                             fontStyle: FontStyle.italic,
                             height: 1.1,
                             letterSpacing: -0.5,
-                            color: isDark ? const Color(0xFF8DCFB8) : const Color(0xFF1E5844),
+                            color: isDark
+                                ? const Color(0xFF8DCFB8)
+                                : const Color(0xFF1E5844),
                           ),
                         ),
                       ],
@@ -571,10 +563,12 @@ class _HomeHero extends StatelessWidget {
                   Text(
                     'A thoughtful read of your natural complexion, unlocking curated shades made to bring you forward.',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                          color: isDark ? AppColors.nightMuted : const Color(0xFF53635B),
-                          height: 1.45,
-                          fontSize: 13,
-                        ),
+                      color: isDark
+                          ? AppColors.nightMuted
+                          : const Color(0xFF53635B),
+                      height: 1.45,
+                      fontSize: 13,
+                    ),
                   ),
                 ],
               ),
@@ -666,10 +660,15 @@ class _UploadCardState extends State<_UploadCard> {
                           height: 76,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: const Color(0xFF133E32), width: 2),
+                            border: Border.all(
+                              color: const Color(0xFF133E32),
+                              width: 2,
+                            ),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFF133E32).withValues(alpha: 0.2),
+                                color: const Color(
+                                  0xFF133E32,
+                                ).withValues(alpha: 0.2),
                                 blurRadius: 12,
                                 offset: const Offset(0, 4),
                               ),
@@ -691,10 +690,12 @@ class _UploadCardState extends State<_UploadCard> {
                       : 'Start with a simple selfie',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.5,
-                        color: isDark ? AppColors.nightText : const Color(0xFF122D24),
-                      ),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18.5,
+                    color: isDark
+                        ? AppColors.nightText
+                        : const Color(0xFF122D24),
+                  ),
                 ),
 
                 const SizedBox(height: 6),
@@ -706,10 +707,12 @@ class _UploadCardState extends State<_UploadCard> {
                       : 'Natural light and your lovely, unedited face are all you need for an accurate reading.',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                        color: isDark ? AppColors.nightMuted : const Color(0xFF607068),
-                        fontSize: 13,
-                        height: 1.4,
-                      ),
+                    color: isDark
+                        ? AppColors.nightMuted
+                        : const Color(0xFF607068),
+                    fontSize: 13,
+                    height: 1.4,
+                  ),
                 ),
 
                 const SizedBox(height: 20),
@@ -737,7 +740,9 @@ class _UploadCardState extends State<_UploadCard> {
                     Icon(
                       LucideIcons.lock,
                       size: 13,
-                      color: isDark ? AppColors.nightMuted : const Color(0xFF708078),
+                      color: isDark
+                          ? AppColors.nightMuted
+                          : const Color(0xFF708078),
                     ),
                     const SizedBox(width: 6),
                     Flexible(
@@ -746,257 +751,16 @@ class _UploadCardState extends State<_UploadCard> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.labelSmall?.copyWith(
-                              color: isDark ? AppColors.nightMuted : const Color(0xFF708078),
-                              letterSpacing: 0.2,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          color: isDark
+                              ? AppColors.nightMuted
+                              : const Color(0xFF708078),
+                          letterSpacing: 0.2,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// SAMPLE PALETTES SECTION (FABRIC THUMBNAILS, COLOR SWATCH DOTS)
-// ─────────────────────────────────────────────────────────────────────────────
-class _SamplePalettesSection extends StatelessWidget {
-  final void Function(String name, String sub, List<Color> dots) onPaletteTap;
-
-  const _SamplePalettesSection({required this.onPaletteTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    const autumnDots = [
-      Color(0xFFD45D3B), // Terracotta
-      Color(0xFF53663C), // Olive
-      Color(0xFFD89E3F), // Ochre
-    ];
-
-    const winterDots = [
-      Color(0xFF7D2644), // Deep Berry
-      Color(0xFF1B5E50), // Emerald
-      Color(0xFF123631), // Deep Navy
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Section header row
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _ColorWheelIcon(
-                    size: 16,
-                    color: isDark ? AppColors.nightText : const Color(0xFF162E25),
-                  ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      'SAMPLE PALETTES',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                            color: isDark ? AppColors.nightText : const Color(0xFF162E25),
-                            letterSpacing: 1.2,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 11,
-                          ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: () => onPaletteTap('Warm Autumn', 'Terracotta & Olive', autumnDots),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '36 Harmonies',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                          color: isDark ? AppColors.nightMuted : const Color(0xFF5A6B63),
-                          letterSpacing: 0.3,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 11.5,
-                        ),
-                  ),
-                  const SizedBox(width: 3),
-                  Icon(
-                    LucideIcons.arrowRight,
-                    size: 13,
-                    color: isDark ? AppColors.nightMuted : const Color(0xFF5A6B63),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-
-        const SizedBox(height: 12),
-
-        // Two cards side by side
-        Row(
-          children: [
-            Expanded(
-              child: _SamplePaletteCard(
-                name: 'Warm Autumn',
-                subtitle: 'Terracotta & Olive',
-                imagePath: 'assets/images/warm_autumn_thumb.png',
-                dots: autumnDots,
-                onTap: () => onPaletteTap(
-                  'Warm Autumn',
-                  'Terracotta & Olive',
-                  autumnDots,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _SamplePaletteCard(
-                name: 'Cool Winter',
-                subtitle: 'Berry & Emerald',
-                imagePath: 'assets/images/cool_winter_thumb.png',
-                dots: winterDots,
-                onTap: () =>
-                    onPaletteTap('Cool Winter', 'Berry & Emerald', winterDots),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _SamplePaletteCard extends StatefulWidget {
-  final String name;
-  final String subtitle;
-  final String imagePath;
-  final List<Color> dots;
-  final VoidCallback onTap;
-
-  const _SamplePaletteCard({
-    required this.name,
-    required this.subtitle,
-    required this.imagePath,
-    required this.dots,
-    required this.onTap,
-  });
-
-  @override
-  State<_SamplePaletteCard> createState() => _SamplePaletteCardState();
-}
-
-class _SamplePaletteCardState extends State<_SamplePaletteCard> {
-  bool _pressed = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    return Semantics(
-      button: true,
-      label: '${widget.name} palette preview',
-      child: GestureDetector(
-        onTapDown: (_) => setState(() => _pressed = true),
-        onTapCancel: () => setState(() => _pressed = false),
-        onTapUp: (_) {
-          setState(() => _pressed = false);
-          widget.onTap();
-        },
-        child: AnimatedScale(
-          duration: AppMotion.micro,
-          scale: _pressed ? 0.98 : 1.0,
-          curve: Curves.easeOutCubic,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            decoration: BoxDecoration(
-              color: isDark ? AppColors.nightSurface : Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: isDark ? AppColors.nightLine : const Color(0xFFEEF2ED),
-                width: 1.2,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: isDark ? Colors.black.withValues(alpha: 0.15) : const Color(0x08000000),
-                  blurRadius: 10,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    widget.imagePath,
-                    width: 44,
-                    height: 38,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        widget.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.titleSmall?.copyWith(
-                              fontSize: 12.5,
-                              fontWeight: FontWeight.w700,
-                              color: isDark ? AppColors.nightText : const Color(0xFF162E25),
-                            ),
-                      ),
-                      const SizedBox(height: 1),
-                      Text(
-                        widget.subtitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                              fontSize: 10,
-                              color: isDark ? AppColors.nightMuted : const Color(0xFF72827A),
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: widget.dots
-                      .map(
-                        (color) => Container(
-                          width: 10,
-                          height: 10,
-                          margin: const EdgeInsets.only(left: 3),
-                          decoration: BoxDecoration(
-                            color: color,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      )
-                      .toList(),
                 ),
               ],
             ),
@@ -1055,11 +819,11 @@ class _PreparationGuideSection extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.labelSmall?.copyWith(
-                      color: isDark ? AppColors.nightText : const Color(0xFF162E25),
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 11,
-                    ),
+                  color: isDark ? AppColors.nightText : const Color(0xFF162E25),
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 11,
+                ),
               ),
             ),
           ],
@@ -1089,7 +853,9 @@ class _PreparationGuideSection extends StatelessWidget {
                     fontSize: 25,
                     fontWeight: FontWeight.w500,
                     height: 1.15,
-                    color: isDark ? AppColors.nightText : const Color(0xFF162D24),
+                    color: isDark
+                        ? AppColors.nightText
+                        : const Color(0xFF162D24),
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -1114,19 +880,28 @@ class _PreparationGuideSection extends StatelessWidget {
           children: List.generate(steps.length, (index) {
             final step = steps[index];
             return Padding(
-              padding: EdgeInsets.only(bottom: index == steps.length - 1 ? 0 : 10),
+              padding: EdgeInsets.only(
+                bottom: index == steps.length - 1 ? 0 : 10,
+              ),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   color: isDark ? AppColors.nightSurface : Colors.white,
                   borderRadius: BorderRadius.circular(18),
                   border: Border.all(
-                    color: isDark ? AppColors.nightLine : const Color(0xFFEEF2ED),
+                    color: isDark
+                        ? AppColors.nightLine
+                        : const Color(0xFFEEF2ED),
                     width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: isDark ? Colors.black.withValues(alpha: 0.15) : const Color(0x08000000),
+                      color: isDark
+                          ? Colors.black.withValues(alpha: 0.15)
+                          : const Color(0x08000000),
                       blurRadius: 10,
                       offset: const Offset(0, 3),
                     ),
@@ -1138,13 +913,17 @@ class _PreparationGuideSection extends StatelessWidget {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.nightSurfaceRaised : const Color(0xFFE6F0E7),
+                        color: isDark
+                            ? AppColors.nightSurfaceRaised
+                            : const Color(0xFFE6F0E7),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         step.$1,
                         size: 20,
-                        color: isDark ? AppColors.sage : const Color(0xFF1A382E),
+                        color: isDark
+                            ? AppColors.sage
+                            : const Color(0xFF1A382E),
                       ),
                     ),
                     const SizedBox(width: 14),
@@ -1155,19 +934,23 @@ class _PreparationGuideSection extends StatelessWidget {
                           Text(
                             step.$2,
                             style: theme.textTheme.titleSmall?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14,
-                                  color: isDark ? AppColors.nightText : const Color(0xFF162D24),
-                                ),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: isDark
+                                  ? AppColors.nightText
+                                  : const Color(0xFF162D24),
+                            ),
                           ),
                           const SizedBox(height: 3),
                           Text(
                             step.$3,
                             style: theme.textTheme.bodySmall?.copyWith(
-                                  color: isDark ? AppColors.nightMuted : const Color(0xFF66756D),
-                                  height: 1.35,
-                                  fontSize: 11.5,
-                                ),
+                              color: isDark
+                                  ? AppColors.nightMuted
+                                  : const Color(0xFF66756D),
+                              height: 1.35,
+                              fontSize: 11.5,
+                            ),
                           ),
                         ],
                       ),
@@ -1176,7 +959,9 @@ class _PreparationGuideSection extends StatelessWidget {
                     Icon(
                       LucideIcons.chevronRight,
                       size: 18,
-                      color: isDark ? AppColors.nightMuted : const Color(0xFF8E9E96),
+                      color: isDark
+                          ? AppColors.nightMuted
+                          : const Color(0xFF8E9E96),
                     ),
                   ],
                 ),
@@ -1255,7 +1040,10 @@ class _InfoCardState extends State<_InfoCard> {
 
                 // Foreground content
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
                   child: Row(
                     children: [
                       Container(
@@ -1283,18 +1071,18 @@ class _InfoCardState extends State<_InfoCard> {
                             Text(
                               'How Vistone sees colour',
                               style: theme.textTheme.titleMedium?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15,
-                                  ),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                              ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               'A guide to Monk Scale AI, undertone math & styling.',
                               style: theme.textTheme.bodySmall?.copyWith(
-                                    color: const Color(0xFFA5C4B4),
-                                    fontSize: 11.5,
-                                  ),
+                                color: const Color(0xFFA5C4B4),
+                                fontSize: 11.5,
+                              ),
                             ),
                           ],
                         ),
@@ -1517,139 +1305,6 @@ class _GuidePoint extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PALETTE PREVIEW BOTTOM SHEET
-// ─────────────────────────────────────────────────────────────────────────────
-class _PalettePreviewSheet extends StatelessWidget {
-  final String name;
-  final String subtitle;
-  final List<Color> colors;
-
-  const _PalettePreviewSheet({
-    required this.name,
-    required this.subtitle,
-    required this.colors,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.nightSurface : AppColors.surface,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(AppRadii.sheet),
-        ),
-        border: Border(
-          top: BorderSide(
-            color: isDark ? AppColors.nightLine : AppColors.line,
-            width: 1,
-          ),
-        ),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 12, 24, 28),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  height: 4,
-                  width: 42,
-                  decoration: BoxDecoration(
-                    color: isDark ? AppColors.nightLine : AppColors.lineStrong,
-                    borderRadius: BorderRadius.circular(99),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 22),
-              Text(
-                name,
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.nightText : AppColors.ink,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                '$subtitle Harmony',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: isDark
-                      ? AppColors.nightMuted
-                      : AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: colors
-                    .map(
-                      (c) => Expanded(
-                        child: Container(
-                          height: 72,
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            color: c,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: isDark
-                                  ? AppColors.nightLine
-                                  : AppColors.line,
-                              width: 1,
-                            ),
-                          ),
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 6),
-                              child: Text(
-                                '#${c.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
-                                style: theme.textTheme.labelSmall?.copyWith(
-                                  color: c.computeLuminance() > 0.45
-                                      ? AppColors.ink
-                                      : AppColors.textInverse,
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'This palette balances undertone warmth with medium contrast to illuminate your natural eye and hair shades.',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: isDark
-                      ? AppColors.nightMuted
-                      : AppColors.textSecondary,
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 22),
-              SizedBox(
-                width: double.infinity,
-                child: AppPrimaryButton(
-                  label: 'Done',
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // CUSTOM PAINTERS & GRAPHIC ELEMENTS
 // ─────────────────────────────────────────────────────────────────────────────
 class _GoldenUnderlinePainter extends CustomPainter {
@@ -1747,16 +1402,29 @@ class _CornerBracketPainter extends CustomPainter {
     canvas.drawLine(Offset(size.width, 0), Offset(size.width, arm), paint);
 
     // Bottom-left
-    canvas.drawLine(Offset(0, size.height - arm), Offset(0, size.height), paint);
+    canvas.drawLine(
+      Offset(0, size.height - arm),
+      Offset(0, size.height),
+      paint,
+    );
     canvas.drawLine(Offset(0, size.height), Offset(arm, size.height), paint);
 
     // Bottom-right
-    canvas.drawLine(Offset(size.width - arm, size.height), Offset(size.width, size.height), paint);
-    canvas.drawLine(Offset(size.width, size.height - arm), Offset(size.width, size.height), paint);
+    canvas.drawLine(
+      Offset(size.width - arm, size.height),
+      Offset(size.width, size.height),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(size.width, size.height - arm),
+      Offset(size.width, size.height),
+      paint,
+    );
   }
 
   @override
-  bool shouldRepaint(covariant _CornerBracketPainter oldDelegate) => oldDelegate.color != color;
+  bool shouldRepaint(covariant _CornerBracketPainter oldDelegate) =>
+      oldDelegate.color != color;
 }
 
 class _GoldenSparkle extends StatelessWidget {
@@ -1801,62 +1469,6 @@ class _FourPointStarPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _FourPointStarPainter oldDelegate) => oldDelegate.color != color;
-}
-
-class _ColorWheelIcon extends StatelessWidget {
-  final double size;
-  final Color color;
-
-  const _ColorWheelIcon({
-    this.size = 17,
-    this.color = const Color(0xFF162E25),
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size,
-      child: CustomPaint(
-        painter: _ColorWheelPainter(color: color),
-      ),
-    );
-  }
-}
-
-class _ColorWheelPainter extends CustomPainter {
-  final Color color;
-
-  const _ColorWheelPainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.6;
-
-    final cx = size.width / 2;
-    final cy = size.height / 2;
-    final r = size.width / 2;
-
-    // Outer circle
-    canvas.drawCircle(Offset(cx, cy), r - 1, paint);
-
-    // 5 radial notches
-    final fillPaint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    for (int i = 0; i < 5; i++) {
-      final angle = (i * 2 * math.pi / 5) - math.pi / 2;
-      final px = cx + (r * 0.45) * math.cos(angle);
-      final py = cy + (r * 0.45) * math.sin(angle);
-      canvas.drawCircle(Offset(px, py), 1.3, fillPaint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _ColorWheelPainter oldDelegate) => oldDelegate.color != color;
+  bool shouldRepaint(covariant _FourPointStarPainter oldDelegate) =>
+      oldDelegate.color != color;
 }

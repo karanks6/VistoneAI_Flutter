@@ -23,26 +23,12 @@ class AppPageBackdrop extends StatelessWidget {
           top: -80,
           right: -60,
           child: _BlurredDisc(
-            color: isDark ? AppColors.forest.withValues(alpha: 0.3) : const Color(0xFFE5EFE7),
+            color: isDark
+                ? AppColors.forest.withValues(alpha: 0.3)
+                : const Color(0xFFE5EFE7),
             size: 320,
           ),
         ),
-        // Middle right subtle flowing sage ribbon
-        if (!isDark)
-          Positioned(
-            top: 420,
-            right: 0,
-            child: IgnorePointer(
-              child: Opacity(
-                opacity: 0.75,
-                child: Image.asset(
-                  'assets/images/bg_wave_right_clean.png',
-                  width: 90,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
         child,
       ],
     );
