@@ -213,10 +213,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                       // 3. Top-Right Theme Toggle Button (Over Moon Icon)
                       Positioned(
-                        left: 686 * s,
-                        top: 86 * s,
-                        width: 60 * s,
-                        height: 60 * s,
+                        left: 689 * s,
+                        top: 93 * s,
+                        width: 58 * s,
+                        height: 58 * s,
                         child: Semantics(
                           button: true,
                           label: isDark
@@ -255,10 +255,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                       // 4. Top-Right Help Button (Over '?' Icon)
                       Positioned(
-                        left: 758 * s,
-                        top: 86 * s,
-                        width: 60 * s,
-                        height: 60 * s,
+                        left: 761 * s,
+                        top: 93 * s,
+                        width: 58 * s,
+                        height: 58 * s,
                         child: Semantics(
                           button: true,
                           label: 'How Vistone sees colour guide',
@@ -273,7 +273,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Positioned(
                         left: 48 * s,
                         top: 242 * s,
-                        width: 430 * s,
+                        width: 440 * s,
                         child: Text.rich(
                           TextSpan(
                             children: [
@@ -308,14 +308,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       // 6. Hero Subtitle Typography
                       Positioned(
                         left: 48 * s,
-                        top: 435 * s,
-                        width: 400 * s,
+                        top: 412 * s,
+                        width: 420 * s,
                         child: Text(
                           'A thoughtful read of your natural complexion, unlocking curated shades made to bring you forward.',
                           style: GoogleFonts.inter(
-                            fontSize: 20 * s,
+                            fontSize: 19.5 * s,
                             fontWeight: FontWeight.w400,
-                            height: 1.45,
+                            height: 1.42,
                             color: cMuted,
                           ),
                         ),
@@ -325,15 +325,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       if (selectedImage == null) ...[
                         // Unselected state: exact text & "Choose a photo" button matching template
                         Positioned(
-                          left: 44 * s,
-                          top: 680 * s,
-                          width: 765 * s,
+                          left: 48 * s,
+                          right: 48 * s,
+                          top: 636 * s,
                           child: Center(
                             child: Text(
                               'Start with a simple selfie',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.inter(
-                                fontSize: 29 * s,
+                                fontSize: 28 * s,
                                 fontWeight: FontWeight.w700,
                                 color: cDark,
                               ),
@@ -341,17 +341,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         Positioned(
-                          left: 80 * s,
-                          top: 732 * s,
-                          width: 693 * s,
+                          left: 48 * s,
+                          right: 48 * s,
+                          top: 684 * s,
                           child: Center(
                             child: Text(
                               'Natural light and your lovely, unedited face are all\nyou need for an accurate reading.',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.inter(
-                                fontSize: 19.5 * s,
+                                fontSize: 19 * s,
                                 fontWeight: FontWeight.w400,
-                                height: 1.38,
+                                height: 1.34,
                                 color: cMuted,
                               ),
                             ),
@@ -360,34 +360,37 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                         // Interactive "Choose a photo" Button with camera icon
                         Positioned(
-                          left: 103 * s,
-                          top: 818 * s,
-                          width: 647 * s,
-                          height: 94 * s,
+                          left: 105 * s,
+                          top: 753 * s,
+                          width: 642 * s,
+                          height: 84 * s,
                           child: Semantics(
                             button: true,
                             label: 'Choose a photo from gallery or camera',
                             child: _AnimatedPillButton(
                               onTap: () => _showUploadOptions(context),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    LucideIcons.camera,
-                                    color: Colors.white,
-                                    size: 28 * s,
-                                  ),
-                                  SizedBox(width: 14 * s),
-                                  Text(
-                                    'Choose a photo',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 25 * s,
-                                      fontWeight: FontWeight.w600,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 48 * s),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      LucideIcons.camera,
                                       color: Colors.white,
-                                      letterSpacing: 0.3,
+                                      size: 26 * s,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(width: 14 * s),
+                                    Text(
+                                      'Choose a photo',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 23.5 * s,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        letterSpacing: 0.3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -395,9 +398,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                         // "Processed privately on this device" note
                         Positioned(
-                          left: 44 * s,
-                          top: 954 * s,
-                          width: 765 * s,
+                          left: 48 * s,
+                          right: 48 * s,
+                          top: 858 * s,
                           child: Center(
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -411,7 +414,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 Text(
                                   'Processed privately on this device',
                                   style: GoogleFonts.inter(
-                                    fontSize: 18.5 * s,
+                                    fontSize: 18 * s,
                                     fontWeight: FontWeight.w600,
                                     color: cGreen,
                                   ),
@@ -423,10 +426,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ] else ...[
                         // Selected Image State: Elegant preview overlay within the card
                         Positioned(
-                          left: 58 * s,
-                          top: 575 * s,
-                          width: 737 * s,
-                          height: 410 * s,
+                          left: 55 * s,
+                          top: 545 * s,
+                          width: 743 * s,
+                          height: 385 * s,
                           child: Container(
                             padding: EdgeInsets.all(18 * s),
                             decoration: BoxDecoration(
@@ -594,7 +597,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       // 8. Preparation Guide Section Header
                       Positioned(
                         left: 48 * s,
-                        top: 1018 * s,
+                        top: 946 * s,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -618,7 +621,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       Positioned(
                         left: 48 * s,
-                        top: 1072 * s,
+                        top: 1018 * s,
                         child: Text(
                           'A clear selfie makes an accurate palette.',
                           style: GoogleFonts.inter(
@@ -632,7 +635,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       // 9. Guide Card 1: Find gentle daylight
                       Positioned(
                         left: 48 * s,
-                        top: 1135 * s,
+                        top: 1098 * s,
                         width: 757 * s,
                         child: Semantics(
                           button: true,
@@ -648,10 +651,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(
-                                left: 147 * s,
-                                right: 62 * s,
-                                top: 16 * s,
-                                bottom: 16 * s,
+                                left: 174 * s,
+                                right: 65 * s,
+                                top: 6 * s,
+                                bottom: 6 * s,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -669,9 +672,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   Text(
                                     'Face a window with soft, natural morning or\nafternoon light. Avoid harsh overhead bulbs.',
                                     style: GoogleFonts.inter(
-                                      fontSize: 17 * s,
+                                      fontSize: 16.5 * s,
                                       fontWeight: FontWeight.w400,
-                                      height: 1.35,
+                                      height: 1.3,
                                       color: cMuted,
                                     ),
                                   ),
@@ -685,7 +688,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       // 10. Guide Card 2: Keep your face clear
                       Positioned(
                         left: 48 * s,
-                        top: 1280 * s,
+                        top: 1238 * s,
                         width: 757 * s,
                         child: Semantics(
                           button: true,
@@ -701,10 +704,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(
-                                left: 147 * s,
-                                right: 62 * s,
-                                top: 16 * s,
-                                bottom: 16 * s,
+                                left: 174 * s,
+                                right: 65 * s,
+                                top: 6 * s,
+                                bottom: 6 * s,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -722,9 +725,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   Text(
                                     'Remove hats or heavy accessories and look\ndirectly into the camera with an even expression.',
                                     style: GoogleFonts.inter(
-                                      fontSize: 17 * s,
+                                      fontSize: 16.5 * s,
                                       fontWeight: FontWeight.w400,
-                                      height: 1.35,
+                                      height: 1.3,
                                       color: cMuted,
                                     ),
                                   ),
@@ -738,7 +741,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       // 11. Guide Card 3: Skip beauty filters
                       Positioned(
                         left: 48 * s,
-                        top: 1425 * s,
+                        top: 1380 * s,
                         width: 757 * s,
                         child: Semantics(
                           button: true,
@@ -754,10 +757,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(
-                                left: 147 * s,
-                                right: 62 * s,
-                                top: 16 * s,
-                                bottom: 16 * s,
+                                left: 174 * s,
+                                right: 65 * s,
+                                top: 6 * s,
+                                bottom: 6 * s,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -775,9 +778,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   Text(
                                     'Use an unedited, natural photo so the skin\npixel sampler measures your genuine undertone.',
                                     style: GoogleFonts.inter(
-                                      fontSize: 17 * s,
+                                      fontSize: 16.5 * s,
                                       fontWeight: FontWeight.w400,
-                                      height: 1.35,
+                                      height: 1.3,
                                       color: cMuted,
                                     ),
                                   ),
@@ -791,7 +794,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       // 12. Bottom Card: "How Vistone sees colour"
                       Positioned(
                         left: 48 * s,
-                        top: 1575 * s,
+                        top: 1574 * s,
                         width: 757 * s,
                         child: Semantics(
                           button: true,
@@ -801,10 +804,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             onTap: () => _showGuideBottomSheet(context),
                             child: Padding(
                               padding: EdgeInsets.only(
-                                left: 158 * s,
+                                left: 178 * s,
                                 right: 90 * s,
-                                top: 20 * s,
-                                bottom: 20 * s,
+                                top: 10 * s,
+                                bottom: 10 * s,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -813,7 +816,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   Text(
                                     'How Vistone sees colour',
                                     style: GoogleFonts.playfairDisplay(
-                                      fontSize: 25 * s,
+                                      fontSize: 24.5 * s,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFFF7F5F0),
                                     ),
@@ -822,9 +825,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   Text(
                                     'A guide to Monk Scale AI, undertone math & styling.',
                                     style: GoogleFonts.inter(
-                                      fontSize: 17.5 * s,
+                                      fontSize: 16.5 * s,
                                       fontWeight: FontWeight.w400,
-                                      height: 1.3,
+                                      height: 1.25,
                                       color: const Color(0xFFC8D7CF),
                                     ),
                                   ),
@@ -839,7 +842,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Positioned(
                         left: 0,
                         right: 0,
-                        top: 1812 * s,
+                        top: 1813 * s,
                         child: Center(
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
