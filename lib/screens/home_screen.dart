@@ -157,19 +157,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               final sy = height / 1844.0;
 
               // Color tokens sampled directly from design template:
-              // Dark forest pine headings and brand ink (#0C251C)
-              final cDark = isDark ? AppColors.nightText : const Color(0xFF0C251C);
-              // Deep charcoal/ink for card titles and brand (#161C21)
-              final cInk = isDark ? AppColors.nightText : const Color(0xFF161C21);
-              // Warm neutral taupe body/subtitle (#4A4744)
-              final cBody = isDark ? AppColors.nightMuted : const Color(0xFF4A4744);
-              // Soft warm gray for card subtitles (#5D5A57 / #636061)
-              final cMuted = isDark ? AppColors.nightMuted : const Color(0xFF5D5A57);
-              // Rich forest sage for privacy note (#375240)
-              final cGreen = isDark ? AppColors.sage : const Color(0xFF375240);
-              // Footer text (#5A5752)
+              // App brand name (#3E4640) and subtitle (#686460)
+              final cBrand = isDark ? AppColors.nightText : const Color(0xFF3E4640);
+              final cBrandSub = isDark ? AppColors.nightMuted : const Color(0xFF686460);
+              // Deep forest pine headings (#0E271D)
+              final cDark = isDark ? AppColors.nightText : const Color(0xFF0E271D);
+              // Flash card titles (#0C1316) and card subtitles (#484A54)
+              final cCardTitle = isDark ? AppColors.nightText : const Color(0xFF0C1316);
+              final cCardSub = isDark ? AppColors.nightMuted : const Color(0xFF484A54);
+              // Warm neutral taupe body/subtitle (#52504D)
+              final cBody = isDark ? AppColors.nightMuted : const Color(0xFF52504D);
+              // Main card title (#1E3127) and subtitle (#56534F)
+              final cCardHead = isDark ? AppColors.nightText : const Color(0xFF1E3127);
+              final cCardBody = isDark ? AppColors.nightMuted : const Color(0xFF56534F);
+              // Privacy note deep pine (#133A2D)
+              final cPrivacy = isDark ? AppColors.sage : const Color(0xFF133A2D);
+              // Button text warm ivory cream (#FAF2E9)
+              final cButtonText = const Color(0xFFFAF2E9);
+              // Backward-compatible alias for selected image state
+              final cGreen = cPrivacy;
+              final cMuted = cCardSub;
+              // Footer text (#5A5752) and dot (#4D9B74)
               final cFooter = isDark ? const Color(0xFF9EABA4) : const Color(0xFF5A5752);
-              // Footer dot (#4D9B74)
               final cFooterDot = isDark ? AppColors.sage : const Color(0xFF4D9B74);
 
               return SizedBox.expand(
@@ -209,7 +218,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               fontSize: 14.5,
                               fontWeight: FontWeight.w800,
                               letterSpacing: 1.8,
-                              color: cInk,
+                              color: cBrand,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -219,7 +228,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               fontSize: 11.5,
                               fontWeight: FontWeight.w400,
                               letterSpacing: 0.2,
-                              color: cMuted,
+                              color: cBrandSub,
                             ),
                           ),
                         ],
@@ -349,7 +358,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               fontSize: 17,
                               fontWeight: FontWeight.w700,
                               letterSpacing: -0.2,
-                              color: cDark,
+                              color: cCardHead,
                             ),
                           ),
                         ),
@@ -366,7 +375,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               fontSize: 12.5,
                               fontWeight: FontWeight.w400,
                               height: 1.32,
-                              color: cBody,
+                              color: cCardBody,
                             ),
                           ),
                         ),
@@ -390,9 +399,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       LucideIcons.camera,
-                                      color: Colors.white,
+                                      color: cButtonText,
                                       size: 19,
                                     ),
                                     const SizedBox(width: 8),
@@ -401,7 +410,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       style: GoogleFonts.inter(
                                         fontSize: 15.5,
                                         fontWeight: FontWeight.w600,
-                                        color: const Color(0xFFF8FFFF),
+                                        color: cButtonText,
                                         letterSpacing: 0.3,
                                       ),
                                     ),
@@ -426,7 +435,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               children: [
                                 Icon(
                                   LucideIcons.lock,
-                                  color: cGreen,
+                                  color: cPrivacy,
                                   size: 13,
                                 ),
                                 const SizedBox(width: 6),
@@ -436,7 +445,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                     letterSpacing: 0.2,
-                                    color: cGreen,
+                                    color: cPrivacy,
                                   ),
                                 ),
                               ],
@@ -686,7 +695,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
                                           fontWeight: FontWeight.w700,
-                                          color: cInk,
+                                          color: cCardTitle,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
@@ -696,7 +705,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           fontSize: 10.5,
                                           fontWeight: FontWeight.w400,
                                           height: 1.25,
-                                          color: cMuted,
+                                          color: cCardSub,
                                         ),
                                       ),
                                     ],
@@ -743,7 +752,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
                                           fontWeight: FontWeight.w700,
-                                          color: cInk,
+                                          color: cCardTitle,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
@@ -753,7 +762,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           fontSize: 10.5,
                                           fontWeight: FontWeight.w400,
                                           height: 1.25,
-                                          color: cMuted,
+                                          color: cCardSub,
                                         ),
                                       ),
                                     ],
@@ -800,7 +809,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
                                           fontWeight: FontWeight.w700,
-                                          color: cInk,
+                                          color: cCardTitle,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
@@ -810,7 +819,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           fontSize: 10.5,
                                           fontWeight: FontWeight.w400,
                                           height: 1.25,
-                                          color: cMuted,
+                                          color: cCardSub,
                                         ),
                                       ),
                                     ],
