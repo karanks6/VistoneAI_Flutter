@@ -156,10 +156,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               final sx = width / 853.0;
               final sy = height / 1844.0;
 
-              // Color tokens for text overlay
-              final cDark = isDark ? AppColors.nightText : const Color(0xFF102B21);
-              final cMuted = isDark ? AppColors.nightMuted : const Color(0xFF55675F);
-              final cGreen = isDark ? AppColors.sage : const Color(0xFF2E6B4F);
+              // Color tokens sampled directly from design template:
+              // Dark forest pine headings and brand ink (#0C251C)
+              final cDark = isDark ? AppColors.nightText : const Color(0xFF0C251C);
+              // Deep charcoal/ink for card titles and brand (#161C21)
+              final cInk = isDark ? AppColors.nightText : const Color(0xFF161C21);
+              // Warm neutral taupe body/subtitle (#4A4744)
+              final cBody = isDark ? AppColors.nightMuted : const Color(0xFF4A4744);
+              // Soft warm gray for card subtitles (#5D5A57 / #636061)
+              final cMuted = isDark ? AppColors.nightMuted : const Color(0xFF5D5A57);
+              // Rich forest sage for privacy note (#375240)
+              final cGreen = isDark ? AppColors.sage : const Color(0xFF375240);
+              // Footer text (#5A5752)
+              final cFooter = isDark ? const Color(0xFF9EABA4) : const Color(0xFF5A5752);
+              // Footer dot (#4D9B74)
+              final cFooterDot = isDark ? AppColors.sage : const Color(0xFF4D9B74);
 
               return SizedBox.expand(
                 child: Stack(
@@ -198,7 +209,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               fontSize: 14.5,
                               fontWeight: FontWeight.w800,
                               letterSpacing: 1.8,
-                              color: cDark,
+                              color: cInk,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -206,8 +217,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             'Colour Studio',
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.3,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.2,
                               color: cMuted,
                             ),
                           ),
@@ -295,13 +306,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               text: 'best light.',
                               style: GoogleFonts.playfairDisplay(
                                 fontSize: 32,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 fontStyle: FontStyle.italic,
                                 height: 1.1,
                                 letterSpacing: -0.5,
-                                color: isDark
-                                    ? const Color(0xFF8DCFB8)
-                                    : const Color(0xFF16382B),
+                                color: cDark,
                               ),
                             ),
                           ],
@@ -319,8 +328,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         style: GoogleFonts.inter(
                           fontSize: 12.5,
                           fontWeight: FontWeight.w400,
-                          height: 1.35,
-                          color: cMuted,
+                          height: 1.38,
+                          color: cBody,
                         ),
                       ),
                     ),
@@ -339,6 +348,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             style: GoogleFonts.inter(
                               fontSize: 17,
                               fontWeight: FontWeight.w700,
+                              letterSpacing: -0.2,
                               color: cDark,
                             ),
                           ),
@@ -355,8 +365,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             style: GoogleFonts.inter(
                               fontSize: 12.5,
                               fontWeight: FontWeight.w400,
-                              height: 1.3,
-                              color: cMuted,
+                              height: 1.32,
+                              color: cBody,
                             ),
                           ),
                         ),
@@ -391,7 +401,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       style: GoogleFonts.inter(
                                         fontSize: 15.5,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.white,
+                                        color: const Color(0xFFF8FFFF),
                                         letterSpacing: 0.3,
                                       ),
                                     ),
@@ -425,6 +435,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.2,
                                     color: cGreen,
                                   ),
                                 ),
@@ -637,7 +648,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         style: GoogleFonts.inter(
                           fontSize: 12.5,
                           fontWeight: FontWeight.w400,
-                          color: cMuted,
+                          color: cBody,
                         ),
                       ),
                     ),
@@ -674,8 +685,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         'Find gentle daylight',
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
-                                          fontWeight: FontWeight.w600,
-                                          color: cDark,
+                                          fontWeight: FontWeight.w700,
+                                          color: cInk,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
@@ -731,8 +742,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         'Keep your face clear',
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
-                                          fontWeight: FontWeight.w600,
-                                          color: cDark,
+                                          fontWeight: FontWeight.w700,
+                                          color: cInk,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
@@ -788,8 +799,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         'Skip beauty filters',
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
-                                          fontWeight: FontWeight.w600,
-                                          color: cDark,
+                                          fontWeight: FontWeight.w700,
+                                          color: cInk,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
@@ -840,7 +851,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         style: GoogleFonts.playfairDisplay(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w600,
-                                          color: const Color(0xFFF7F5F0),
+                                          letterSpacing: 0.2,
+                                          color: const Color(0xFFF7FAF7),
                                         ),
                                       ),
                                       const SizedBox(height: 3),
@@ -850,7 +862,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           fontSize: 11.5,
                                           fontWeight: FontWeight.w400,
                                           height: 1.25,
-                                          color: const Color(0xFFC8D7CF),
+                                          color: const Color(0xFFD2EBE3),
                                         ),
                                       ),
                                     ],
@@ -878,9 +890,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               Container(
                                 width: 7,
                                 height: 7,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Color(0xFF2E6B4F),
+                                  color: cFooterDot,
                                 ),
                               ),
                               const SizedBox(width: 7),
@@ -890,9 +902,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   fontSize: 10.5,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 1.5,
-                                  color: isDark
-                                      ? const Color(0xFF9EABA4)
-                                      : const Color(0xFF6E8077),
+                                  color: cFooter,
                                 ),
                               ),
                             ],
