@@ -143,257 +143,289 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     // Canvas coordinate reference system: 853 x 1844
     return Scaffold(
       backgroundColor: isDark ? AppColors.night : const Color(0xFFFAF7F2),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final width = constraints.maxWidth;
-          final height = constraints.maxHeight;
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 540),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth;
+              final height = constraints.maxHeight;
 
-          // Mathematical coordinate scaling:
-          // sx scales along width (853 base canvas)
-          // sy scales along height (1844 base canvas)
-          // s provides a balanced typographic scaling factor
-          final sx = width / 853.0;
-          final sy = height / 1844.0;
-          final s = (sx + sy) / 2;
+              // Proportional coordinate scaling against the 853 x 1844 canvas
+              final sx = width / 853.0;
+              final sy = height / 1844.0;
 
-          // Color tokens for text overlay
-          final cDark = isDark ? AppColors.nightText : const Color(0xFF102B21);
-          final cMuted = isDark ? AppColors.nightMuted : const Color(0xFF55675F);
-          final cGreen = isDark ? AppColors.sage : const Color(0xFF2E6B4F);
+              // Color tokens for text overlay
+              final cDark = isDark ? AppColors.nightText : const Color(0xFF102B21);
+              final cMuted = isDark ? AppColors.nightMuted : const Color(0xFF55675F);
+              final cGreen = isDark ? AppColors.sage : const Color(0xFF2E6B4F);
 
-          return SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: SizedBox(
-              width: width,
-              height: height,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  // 1. Base photographic artwork template
-                  Positioned.fill(
-                    child: isDark
-                        ? ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                              AppColors.night.withValues(alpha: 0.55),
-                              BlendMode.srcOver,
-                            ),
-                            child: Image.asset(
+              return SizedBox.expand(
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // 1. Base photographic artwork template spanning the full screen
+                    Positioned.fill(
+                      child: isDark
+                          ? ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                AppColors.night.withValues(alpha: 0.55),
+                                BlendMode.srcOver,
+                              ),
+                              child: Image.asset(
+                                'assets/images/Text-Free Sage Beauty App Interface.png',
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                          : Image.asset(
                               'assets/images/Text-Free Sage Beauty App Interface.png',
                               fit: BoxFit.fill,
                             ),
-                          )
-                        : Image.asset(
-                            'assets/images/Text-Free Sage Beauty App Interface.png',
-                            fit: BoxFit.fill,
-                          ),
-                  ),
-
-                  // 2. Top Header Brand Typography (App Name)
-                  Positioned(
-                    left: 136 * sx,
-                    top: 108 * sy,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'VISTONE AI',
-                          style: GoogleFonts.inter(
-                            fontSize: 25 * s,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 2.2,
-                            color: cDark,
-                          ),
-                        ),
-                        SizedBox(height: 1 * sy),
-                        Text(
-                          'Colour Studio',
-                          style: GoogleFonts.inter(
-                            fontSize: 18 * s,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.5,
-                            color: cMuted,
-                          ),
-                        ),
-                      ],
                     ),
-                  ),
 
-                  // 3. Top-Right Theme Toggle Button (Over Moon Icon)
-                  Positioned(
-                    left: 686 * sx,
-                    top: 88 * sy,
-                    width: 64 * sx,
-                    height: 64 * sy,
-                    child: Semantics(
-                      button: true,
-                      label: isDark
-                          ? 'Switch to light theme'
-                          : 'Switch to dark theme',
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          HapticFeedback.lightImpact();
-                          ref.read(themeProvider.notifier).toggleTheme();
-                        },
-                        child: isDark
-                            ? Center(
-                                child: Container(
-                                  width: 44 * s,
-                                  height: 44 * s,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.nightSurface,
-                                    border: Border.all(
-                                      color: AppColors.marigold,
-                                      width: 1.5,
-                                    ),
-                                  ),
-                                  child: Icon(
-                                    LucideIcons.sunMedium,
-                                    color: AppColors.marigold,
-                                    size: 20 * s,
-                                  ),
-                                ),
-                              )
-                            : const SizedBox.shrink(),
-                      ),
-                    ),
-                  ),
-
-                  // 4. Top-Right Help Button (Over '?' Icon)
-                  Positioned(
-                    left: 758 * sx,
-                    top: 88 * sy,
-                    width: 64 * sx,
-                    height: 64 * sy,
-                    child: Semantics(
-                      button: true,
-                      label: 'How Vistone sees colour guide',
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => _showGuideBottomSheet(context),
-                      ),
-                    ),
-                  ),
-
-                  // 5. Hero Headline Typography ("Dress in your best light.")
-                  Positioned(
-                    left: 48 * sx,
-                    top: 232 * sy,
-                    width: 460 * sx,
-                    child: Text.rich(
-                      TextSpan(
+                    // 2. Top Header Brand Typography (App Name beside logo)
+                    Positioned(
+                      left: 126 * sx,
+                      top: 110 * sy,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          TextSpan(
-                            text: 'Dress in your\n',
-                            style: GoogleFonts.playfairDisplay(
-                              fontSize: 66 * s,
-                              fontWeight: FontWeight.w700,
-                              height: 1.05,
-                              letterSpacing: -0.8,
+                          Text(
+                            'VISTONE AI',
+                            style: GoogleFonts.inter(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 2.2,
                               color: cDark,
                             ),
                           ),
-                          TextSpan(
-                            text: 'best light.',
-                            style: GoogleFonts.playfairDisplay(
-                              fontSize: 66 * s,
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.italic,
-                              height: 1.05,
-                              letterSpacing: -0.8,
-                              color: isDark
-                                  ? const Color(0xFF8DCFB8)
-                                  : const Color(0xFF16382B),
+                          const SizedBox(height: 1),
+                          Text(
+                            'Colour Studio',
+                            style: GoogleFonts.inter(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.3,
+                              color: cMuted,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
 
-                  // 6. Hero Subtitle Typography
-                  Positioned(
-                    left: 48 * sx,
-                    top: 406 * sy,
-                    width: 430 * sx,
-                    child: Text(
-                      'A thoughtful read of your natural complexion, unlocking curated shades made to bring you forward.',
-                      style: GoogleFonts.inter(
-                        fontSize: 22 * s,
-                        fontWeight: FontWeight.w400,
-                        height: 1.38,
-                        color: cMuted,
-                      ),
-                    ),
-                  ),
-
-                  // 7. Main Card Content Area (or Selected Image Preview)
-                  if (selectedImage == null) ...[
-                    // Unselected state: exact text & "Choose a photo" button matching template
+                    // 3. Top-Right Theme Toggle Button (Over Moon Icon)
                     Positioned(
-                      left: 48 * sx,
-                      right: 48 * sx,
-                      top: 624 * sy,
-                      child: Center(
-                        child: Text(
-                          'Start with a simple selfie',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            fontSize: 32 * s,
-                            fontWeight: FontWeight.w700,
-                            color: cDark,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 48 * sx,
-                      right: 48 * sx,
-                      top: 674 * sy,
-                      child: Center(
-                        child: Text(
-                          'Natural light and your lovely, unedited face are all\nyou need for an accurate reading.',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            fontSize: 21 * s,
-                            fontWeight: FontWeight.w400,
-                            height: 1.32,
-                            color: cMuted,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // Interactive "Choose a photo" Button with camera icon
-                    Positioned(
-                      left: 105 * sx,
-                      top: 746 * sy,
-                      width: 642 * sx,
-                      height: 90 * sy,
+                      left: 686 * sx,
+                      top: 92 * sy,
+                      width: 60 * sx,
+                      height: 60 * sy,
                       child: Semantics(
                         button: true,
-                        label: 'Choose a photo from gallery or camera',
-                        child: _AnimatedPillButton(
-                          onTap: () => _showUploadOptions(context),
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 48 * sx),
+                        label: isDark
+                            ? 'Switch to light theme'
+                            : 'Switch to dark theme',
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            HapticFeedback.lightImpact();
+                            ref.read(themeProvider.notifier).toggleTheme();
+                          },
+                          child: isDark
+                              ? Center(
+                                  child: Container(
+                                    width: 44 * sx,
+                                    height: 44 * sx,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.nightSurface,
+                                      border: Border.all(
+                                        color: AppColors.marigold,
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    child: Icon(
+                                      LucideIcons.sunMedium,
+                                      color: AppColors.marigold,
+                                      size: 20 * sx,
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
+                      ),
+                    ),
+
+                    // 4. Top-Right Help Button (Over '?' Icon)
+                    Positioned(
+                      left: 758 * sx,
+                      top: 92 * sy,
+                      width: 60 * sx,
+                      height: 60 * sy,
+                      child: Semantics(
+                        button: true,
+                        label: 'How Vistone sees colour guide',
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => _showGuideBottomSheet(context),
+                        ),
+                      ),
+                    ),
+
+                    // 5. Hero Headline Typography ("Dress in your best light.")
+                    Positioned(
+                      left: 48 * sx,
+                      top: 240 * sy,
+                      width: 440 * sx,
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Dress in your\n',
+                              style: GoogleFonts.playfairDisplay(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700,
+                                height: 1.1,
+                                letterSpacing: -0.5,
+                                color: cDark,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'best light.',
+                              style: GoogleFonts.playfairDisplay(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.italic,
+                                height: 1.1,
+                                letterSpacing: -0.5,
+                                color: isDark
+                                    ? const Color(0xFF8DCFB8)
+                                    : const Color(0xFF16382B),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // 6. Hero Subtitle Typography
+                    Positioned(
+                      left: 48 * sx,
+                      top: 406 * sy,
+                      width: 430 * sx,
+                      child: Text(
+                        'A thoughtful read of your natural complexion, unlocking curated shades made to bring you forward.',
+                        style: GoogleFonts.inter(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w400,
+                          height: 1.35,
+                          color: cMuted,
+                        ),
+                      ),
+                    ),
+
+                    // 7. Main Card Content Area (or Selected Image Preview)
+                    if (selectedImage == null) ...[
+                      // Unselected state: exact text & "Choose a photo" button matching template
+                      Positioned(
+                        left: 48 * sx,
+                        right: 48 * sx,
+                        top: 632 * sy,
+                        child: Center(
+                          child: Text(
+                            'Start with a simple selfie',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: cDark,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 48 * sx,
+                        right: 48 * sx,
+                        top: 678 * sy,
+                        child: Center(
+                          child: Text(
+                            'Natural light and your lovely, unedited face are all\nyou need for an accurate reading.',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w400,
+                              height: 1.3,
+                              color: cMuted,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Interactive "Choose a photo" Button with camera icon
+                      Positioned(
+                        left: 105 * sx,
+                        top: 746 * sy,
+                        width: 642 * sx,
+                        height: 84 * sy,
+                        child: Semantics(
+                          button: true,
+                          label: 'Choose a photo from gallery or camera',
+                          child: _AnimatedPillButton(
+                            onTap: () => _showUploadOptions(context),
+                            child: Center(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      LucideIcons.camera,
+                                      color: Colors.white,
+                                      size: 19,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Choose a photo',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 15.5,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        letterSpacing: 0.3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // "Processed privately on this device" note
+                      Positioned(
+                        left: 48 * sx,
+                        right: 48 * sx,
+                        top: 852 * sy,
+                        child: Center(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
-                                  LucideIcons.camera,
-                                  color: Colors.white,
-                                  size: 29 * s,
+                                  LucideIcons.lock,
+                                  color: cGreen,
+                                  size: 13,
                                 ),
-                                SizedBox(width: 14 * sx),
+                                const SizedBox(width: 6),
                                 Text(
-                                  'Choose a photo',
+                                  'Processed privately on this device',
                                   style: GoogleFonts.inter(
-                                    fontSize: 26 * s,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                    letterSpacing: 0.4,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: cGreen,
                                   ),
                                 ),
                               ],
@@ -401,483 +433,483 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                       ),
-                    ),
-
-                    // "Processed privately on this device" note
-                    Positioned(
-                      left: 48 * sx,
-                      right: 48 * sx,
-                      top: 852 * sy,
-                      child: Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              LucideIcons.lock,
-                              color: cGreen,
-                              size: 21 * s,
-                            ),
-                            SizedBox(width: 8 * sx),
-                            Text(
-                              'Processed privately on this device',
-                              style: GoogleFonts.inter(
-                                fontSize: 20 * s,
-                                fontWeight: FontWeight.w600,
-                                color: cGreen,
+                    ] else ...[
+                      // Selected Image State: Elegant preview overlay within the card
+                      Positioned(
+                        left: 55 * sx,
+                        top: 545 * sy,
+                        width: 743 * sx,
+                        height: 385 * sy,
+                        child: Container(
+                          padding: EdgeInsets.all(16 * sx),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? AppColors.nightSurface
+                                : Colors.white.withValues(alpha: 0.96),
+                            borderRadius: BorderRadius.circular(28 * sx),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.08),
+                                blurRadius: 18,
+                                offset: const Offset(0, 6),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ] else ...[
-                    // Selected Image State: Elegant preview overlay within the card
-                    Positioned(
-                      left: 55 * sx,
-                      top: 540 * sy,
-                      width: 743 * sx,
-                      height: 388 * sy,
-                      child: Container(
-                        padding: EdgeInsets.all(18 * s),
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.nightSurface
-                              : Colors.white.withValues(alpha: 0.96),
-                          borderRadius: BorderRadius.circular(30 * s),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.08),
-                              blurRadius: 18,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(18 * s),
-                                    child: Image.file(
-                                      selectedImage,
-                                      width: 140 * sx,
-                                      height: double.infinity,
-                                      fit: BoxFit.cover,
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(16 * sx),
+                                      child: Image.file(
+                                        selectedImage,
+                                        width: 130 * sx,
+                                        height: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 18 * sx),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 10 * s,
-                                            vertical: 4 * s,
+                                    SizedBox(width: 16 * sx),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 4,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: cGreen
+                                                  .withValues(alpha: 0.15),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      AppRadii.pill),
+                                            ),
+                                            child: Text(
+                                              'PHOTO READY',
+                                              style: GoogleFonts.inter(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w700,
+                                                letterSpacing: 1.2,
+                                                color: cGreen,
+                                              ),
+                                            ),
                                           ),
-                                          decoration: BoxDecoration(
-                                            color: cGreen
-                                                .withValues(alpha: 0.15),
+                                          const SizedBox(height: 6),
+                                          Text(
+                                            'Ready for Monk Scale Analysis',
+                                            style: GoogleFonts.inter(
+                                              fontSize: 14.5,
+                                              fontWeight: FontWeight.w700,
+                                              color: cDark,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 3),
+                                          Text(
+                                            'Skin pixel sampling and tone matrix calibrated.',
+                                            style: GoogleFonts.inter(
+                                              fontSize: 11.5,
+                                              color: cMuted,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: SizedBox(
+                                      height: 48 * sy,
+                                      child: ElevatedButton.icon(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFF143B2F),
+                                          foregroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(
                                                     AppRadii.pill),
                                           ),
-                                          child: Text(
-                                            'PHOTO READY',
-                                            style: GoogleFonts.inter(
-                                              fontSize: 13 * s,
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 1.2,
-                                              color: cGreen,
-                                            ),
-                                          ),
                                         ),
-                                        SizedBox(height: 8 * sy),
-                                        Text(
-                                          'Ready for Monk Scale Analysis',
+                                        icon: const Icon(
+                                          LucideIcons.sparkles,
+                                          size: 16,
+                                        ),
+                                        label: Text(
+                                          'Analyse Complexion',
                                           style: GoogleFonts.inter(
-                                            fontSize: 18 * s,
+                                            fontSize: 13.5,
                                             fontWeight: FontWeight.w700,
-                                            color: cDark,
                                           ),
                                         ),
-                                        SizedBox(height: 4 * sy),
-                                        Text(
-                                          'Skin pixel sampling and tone matrix calibrated.',
+                                        onPressed: () {
+                                          HapticFeedback.lightImpact();
+                                          ref
+                                              .read(analysisProvider.notifier)
+                                              .reset();
+                                          context.push('/analyzing');
+                                          ref
+                                              .read(analysisProvider.notifier)
+                                              .analyze(selectedImage);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    flex: 2,
+                                    child: SizedBox(
+                                      height: 48 * sy,
+                                      child: OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                          foregroundColor: cDark,
+                                          side: BorderSide(
+                                            color: isDark
+                                                ? AppColors.nightLine
+                                                : const Color(0xFFDFE6E1),
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(
+                                                    AppRadii.pill),
+                                          ),
+                                        ),
+                                        onPressed: () =>
+                                            _showUploadOptions(context),
+                                        child: Text(
+                                          'Change',
                                           style: GoogleFonts.inter(
-                                            fontSize: 14.5 * s,
-                                            color: cMuted,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            SizedBox(height: 14 * sy),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: SizedBox(
-                                    height: 52 * sy,
-                                    child: ElevatedButton.icon(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xFF143B2F),
-                                        foregroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(
-                                                  AppRadii.pill),
-                                        ),
-                                      ),
-                                      icon: Icon(
-                                        LucideIcons.sparkles,
-                                        size: 19 * s,
-                                      ),
-                                      label: Text(
-                                        'Analyse Complexion',
-                                        style: GoogleFonts.inter(
-                                          fontSize: 16 * s,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        HapticFeedback.lightImpact();
-                                        ref
-                                            .read(analysisProvider.notifier)
-                                            .reset();
-                                        context.push('/analyzing');
-                                        ref
-                                            .read(analysisProvider.notifier)
-                                            .analyze(selectedImage);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10 * sx),
-                                Expanded(
-                                  flex: 2,
-                                  child: SizedBox(
-                                    height: 52 * sy,
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        foregroundColor: cDark,
-                                        side: BorderSide(
-                                          color: isDark
-                                              ? AppColors.nightLine
-                                              : const Color(0xFFDFE6E1),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(
-                                                  AppRadii.pill),
-                                        ),
-                                      ),
-                                      onPressed: () =>
-                                          _showUploadOptions(context),
-                                      child: Text(
-                                        'Change',
-                                        style: GoogleFonts.inter(
-                                          fontSize: 15 * s,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-
-                  // 8. Preparation Guide Section Header
-                  Positioned(
-                    left: 48 * sx,
-                    top: 938 * sy,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          LucideIcons.lightbulb,
-                          color: cDark,
-                          size: 38 * s,
-                        ),
-                        SizedBox(width: 14 * sx),
-                        Text(
-                          'Preparation Guide',
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 38 * s,
-                            fontWeight: FontWeight.w700,
-                            color: cDark,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    left: 48 * sx,
-                    top: 994 * sy,
-                    child: Text(
-                      'A clear selfie makes an accurate palette.',
-                      style: GoogleFonts.inter(
-                        fontSize: 22 * s,
-                        fontWeight: FontWeight.w400,
-                        color: cMuted,
-                      ),
-                    ),
-                  ),
-
-                  // 9. Guide Card 1: Find gentle daylight
-                  Positioned(
-                    left: 48 * sx,
-                    top: 1092 * sy,
-                    width: 757 * sx,
-                    child: Semantics(
-                      button: true,
-                      label: 'Guide: Find gentle daylight',
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => _showTipDialog(
-                          context,
-                          title: 'Find Gentle Daylight',
-                          description:
-                              'Face a window with soft, natural morning or afternoon light. Direct sunlight creates harsh specular glare, while artificial yellow/blue bulbs shift skin undertones.',
-                          icon: LucideIcons.sun,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 174 * sx,
-                            right: 65 * sx,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Find gentle daylight',
-                                style: GoogleFonts.inter(
-                                  fontSize: 24 * s,
-                                  fontWeight: FontWeight.w700,
-                                  color: cDark,
-                                ),
-                              ),
-                              SizedBox(height: 3 * sy),
-                              Text(
-                                'Face a window with soft, natural morning or\nafternoon light. Avoid harsh overhead bulbs.',
-                                style: GoogleFonts.inter(
-                                  fontSize: 18 * s,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.28,
-                                  color: cMuted,
-                                ),
-                              ),
                             ],
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                    ],
 
-                  // 10. Guide Card 2: Keep your face clear
-                  Positioned(
-                    left: 48 * sx,
-                    top: 1234 * sy,
-                    width: 757 * sx,
-                    child: Semantics(
-                      button: true,
-                      label: 'Guide: Keep your face clear',
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => _showTipDialog(
-                          context,
-                          title: 'Keep Your Face Clear',
-                          description:
-                              'Tuck your hair behind your ears and remove hats, glasses, or heavy jewelry. Keep an unforced, neutral facial expression looking straight into the lens.',
-                          icon: LucideIcons.scanFace,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 174 * sx,
-                            right: 65 * sx,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Keep your face clear',
-                                style: GoogleFonts.inter(
-                                  fontSize: 24 * s,
-                                  fontWeight: FontWeight.w700,
-                                  color: cDark,
-                                ),
-                              ),
-                              SizedBox(height: 3 * sy),
-                              Text(
-                                'Remove hats or heavy accessories and look\ndirectly into the camera with an even expression.',
-                                style: GoogleFonts.inter(
-                                  fontSize: 18 * s,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.28,
-                                  color: cMuted,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // 11. Guide Card 3: Skip beauty filters
-                  Positioned(
-                    left: 48 * sx,
-                    top: 1374 * sy,
-                    width: 757 * sx,
-                    child: Semantics(
-                      button: true,
-                      label: 'Guide: Skip beauty filters',
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => _showTipDialog(
-                          context,
-                          title: 'Skip Beauty Filters',
-                          description:
-                              'Camera beautifiers, smoothing algorithms, and colour saturation filters distort your natural undertone math. An unedited photo guarantees precision recommendations.',
-                          icon: LucideIcons.wand2,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 174 * sx,
-                            right: 65 * sx,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Skip beauty filters',
-                                style: GoogleFonts.inter(
-                                  fontSize: 24 * s,
-                                  fontWeight: FontWeight.w700,
-                                  color: cDark,
-                                ),
-                              ),
-                              SizedBox(height: 3 * sy),
-                              Text(
-                                'Use an unedited, natural photo so the skin\npixel sampler measures your genuine undertone.',
-                                style: GoogleFonts.inter(
-                                  fontSize: 18 * s,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.28,
-                                  color: cMuted,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // 12. Bottom Card: "How Vistone sees colour"
-                  Positioned(
-                    left: 48 * sx,
-                    top: 1564 * sy,
-                    width: 757 * sx,
-                    child: Semantics(
-                      button: true,
-                      label: 'How Vistone sees colour guide',
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => _showGuideBottomSheet(context),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 178 * sx,
-                            right: 90 * sx,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'How Vistone sees colour',
-                                style: GoogleFonts.playfairDisplay(
-                                  fontSize: 27 * s,
-                                  fontWeight: FontWeight.w700,
-                                  color: const Color(0xFFF7F5F0),
-                                ),
-                              ),
-                              SizedBox(height: 4 * sy),
-                              Text(
-                                'A guide to Monk Scale AI, undertone math & styling.',
-                                style: GoogleFonts.inter(
-                                  fontSize: 18 * s,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.25,
-                                  color: const Color(0xFFC8D7CF),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // 13. Fixed Bottom Footer Status Line (Always visible without scrolling)
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: math.max(12.0, MediaQuery.of(context).padding.bottom + 6),
-                    child: Center(
+                    // 8. Preparation Guide Section Header
+                    Positioned(
+                      left: 48 * sx,
+                      top: 940 * sy,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 8 * s,
-                            height: 8 * s,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xFF2E6B4F),
-                            ),
+                          Icon(
+                            LucideIcons.lightbulb,
+                            color: cDark,
+                            size: 22,
                           ),
-                          SizedBox(width: 8 * s),
+                          const SizedBox(width: 8),
                           Text(
-                            'VISTONE AI  •  ON-DEVICE INFERENCE ENGINE',
-                            style: GoogleFonts.inter(
-                              fontSize: 16 * s,
+                            'Preparation Guide',
+                            style: GoogleFonts.playfairDisplay(
+                              fontSize: 22,
                               fontWeight: FontWeight.w700,
-                              letterSpacing: 1.8,
-                              color: const Color(0xFF6E8077),
+                              color: cDark,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
+                    Positioned(
+                      left: 48 * sx,
+                      top: 1004 * sy,
+                      child: Text(
+                        'A clear selfie makes an accurate palette.',
+                        style: GoogleFonts.inter(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w400,
+                          color: cMuted,
+                        ),
+                      ),
+                    ),
+
+                    // 9. Guide Card 1: Find gentle daylight
+                    Positioned(
+                      left: 48 * sx,
+                      top: 1080 * sy,
+                      width: 757 * sx,
+                      child: Semantics(
+                        button: true,
+                        label: 'Guide: Find gentle daylight',
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => _showTipDialog(
+                            context,
+                            title: 'Find Gentle Daylight',
+                            description:
+                                'Face a window with soft, natural morning or afternoon light. Direct sunlight creates harsh specular glare, while artificial yellow/blue bulbs shift skin undertones.',
+                            icon: LucideIcons.sun,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8 * sy),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(width: (218 - 48) * sx),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Find gentle daylight',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.5,
+                                          fontWeight: FontWeight.w700,
+                                          color: cDark,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Face a window with soft, natural morning or afternoon light. Avoid harsh overhead bulbs.',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.25,
+                                          color: cMuted,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: (805 - 745) * sx),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // 10. Guide Card 2: Keep your face clear
+                    Positioned(
+                      left: 48 * sx,
+                      top: 1220 * sy,
+                      width: 757 * sx,
+                      child: Semantics(
+                        button: true,
+                        label: 'Guide: Keep your face clear',
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => _showTipDialog(
+                            context,
+                            title: 'Keep Your Face Clear',
+                            description:
+                                'Tuck your hair behind your ears and remove hats, glasses, or heavy jewelry. Keep an unforced, neutral facial expression looking straight into the lens.',
+                            icon: LucideIcons.scanFace,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8 * sy),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(width: (218 - 48) * sx),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Keep your face clear',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.5,
+                                          fontWeight: FontWeight.w700,
+                                          color: cDark,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Remove hats or heavy accessories and look directly into the camera with an even expression.',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.25,
+                                          color: cMuted,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: (805 - 745) * sx),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // 11. Guide Card 3: Skip beauty filters
+                    Positioned(
+                      left: 48 * sx,
+                      top: 1360 * sy,
+                      width: 757 * sx,
+                      child: Semantics(
+                        button: true,
+                        label: 'Guide: Skip beauty filters',
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => _showTipDialog(
+                            context,
+                            title: 'Skip Beauty Filters',
+                            description:
+                                'Camera beautifiers, smoothing algorithms, and colour saturation filters distort your natural undertone math. An unedited photo guarantees precision recommendations.',
+                            icon: LucideIcons.wand2,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8 * sy),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(width: (218 - 48) * sx),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Skip beauty filters',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.5,
+                                          fontWeight: FontWeight.w700,
+                                          color: cDark,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Use an unedited, natural photo so the skin pixel sampler measures your genuine undertone.',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.25,
+                                          color: cMuted,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: (805 - 745) * sx),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // 12. Bottom Card: "How Vistone sees colour"
+                    Positioned(
+                      left: 48 * sx,
+                      top: 1540 * sy,
+                      width: 757 * sx,
+                      child: Semantics(
+                        button: true,
+                        label: 'How Vistone sees colour guide',
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => _showGuideBottomSheet(context),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10 * sy),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(width: (218 - 48) * sx),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'How Vistone sees colour',
+                                        style: GoogleFonts.playfairDisplay(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w600,
+                                          color: const Color(0xFFF7F5F0),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 3),
+                                      Text(
+                                        'A guide to Monk Scale AI, undertone math & styling.',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.25,
+                                          color: const Color(0xFFC8D7CF),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: (805 - 740) * sx),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // 13. Fixed Bottom Footer Status Line (Anchored at the bottom)
+                    Positioned(
+                      left: 16,
+                      right: 16,
+                      bottom: math.max(12.0, MediaQuery.paddingOf(context).bottom + 4),
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: 7,
+                                height: 7,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0xFF2E6B4F),
+                                ),
+                              ),
+                              const SizedBox(width: 7),
+                              Text(
+                                'VISTONE AI  •  ON-DEVICE INFERENCE ENGINE',
+                                style: GoogleFonts.inter(
+                                  fontSize: 10.5,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1.5,
+                                  color: isDark
+                                      ? const Color(0xFF9EABA4)
+                                      : const Color(0xFF6E8077),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
 }
-
 /// Tactile button with animated scale feedback
 class _AnimatedPillButton extends StatefulWidget {
   final Widget child;
