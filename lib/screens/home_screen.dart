@@ -187,7 +187,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 2. Top Header Brand Typography (App Name beside logo)
                     Positioned(
                       left: 126 * sx,
-                      top: 110 * sy,
+                      top: 116 * sy,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -195,17 +195,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           Text(
                             'VISTONE AI',
                             style: GoogleFonts.inter(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 2.2,
+                              fontSize: 14.5,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1.8,
                               color: cDark,
                             ),
                           ),
-                          const SizedBox(height: 1),
+                          const SizedBox(height: 2),
                           Text(
                             'Colour Studio',
                             style: GoogleFonts.inter(
-                              fontSize: 13,
+                              fontSize: 11.5,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.3,
                               color: cMuted,
@@ -645,7 +645,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 9. Guide Card 1: Find gentle daylight
                     Positioned(
                       left: 48 * sx,
-                      top: 1080 * sy,
+                      top: 1088 * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
@@ -660,11 +660,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             icon: LucideIcons.sun,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8 * sy),
+                            padding: EdgeInsets.symmetric(vertical: 4 * sy),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SizedBox(width: (218 - 48) * sx),
+                                SizedBox(width: (200 - 48) * sx),
                                 Expanded(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -673,16 +673,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       Text(
                                         'Find gentle daylight',
                                         style: GoogleFonts.inter(
-                                          fontSize: 14.5,
-                                          fontWeight: FontWeight.w700,
+                                          fontSize: 13.5,
+                                          fontWeight: FontWeight.w600,
                                           color: cDark,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        'Face a window with soft, natural morning or afternoon light. Avoid harsh overhead bulbs.',
+                                        'Face a window with soft, natural morning or\nafternoon light. Avoid harsh overhead bulbs.',
                                         style: GoogleFonts.inter(
-                                          fontSize: 11.5,
+                                          fontSize: 10.5,
                                           fontWeight: FontWeight.w400,
                                           height: 1.25,
                                           color: cMuted,
@@ -691,7 +691,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: (805 - 745) * sx),
+                                SizedBox(width: (805 - 755) * sx),
                               ],
                             ),
                           ),
@@ -702,7 +702,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 10. Guide Card 2: Keep your face clear
                     Positioned(
                       left: 48 * sx,
-                      top: 1220 * sy,
+                      top: 1228 * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
@@ -717,11 +717,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             icon: LucideIcons.scanFace,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8 * sy),
+                            padding: EdgeInsets.symmetric(vertical: 4 * sy),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SizedBox(width: (218 - 48) * sx),
+                                SizedBox(width: (200 - 48) * sx),
                                 Expanded(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -730,16 +730,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       Text(
                                         'Keep your face clear',
                                         style: GoogleFonts.inter(
-                                          fontSize: 14.5,
-                                          fontWeight: FontWeight.w700,
+                                          fontSize: 13.5,
+                                          fontWeight: FontWeight.w600,
                                           color: cDark,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        'Remove hats or heavy accessories and look directly into the camera with an even expression.',
+                                        'Remove hats or heavy accessories and look\ndirectly into the camera with an even expression.',
                                         style: GoogleFonts.inter(
-                                          fontSize: 11.5,
+                                          fontSize: 10.5,
                                           fontWeight: FontWeight.w400,
                                           height: 1.25,
                                           color: cMuted,
@@ -748,7 +748,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: (805 - 745) * sx),
+                                SizedBox(width: (805 - 755) * sx),
                               ],
                             ),
                           ),
@@ -759,7 +759,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 11. Guide Card 3: Skip beauty filters
                     Positioned(
                       left: 48 * sx,
-                      top: 1360 * sy,
+                      top: 1368 * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
@@ -774,11 +774,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             icon: LucideIcons.wand2,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8 * sy),
+                            padding: EdgeInsets.symmetric(vertical: 4 * sy),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SizedBox(width: (218 - 48) * sx),
+                                SizedBox(width: (200 - 48) * sx),
                                 Expanded(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -787,16 +787,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       Text(
                                         'Skip beauty filters',
                                         style: GoogleFonts.inter(
-                                          fontSize: 14.5,
-                                          fontWeight: FontWeight.w700,
+                                          fontSize: 13.5,
+                                          fontWeight: FontWeight.w600,
                                           color: cDark,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        'Use an unedited, natural photo so the skin pixel sampler measures your genuine undertone.',
+                                        'Use an unedited, natural photo so the skin\npixel sampler measures your genuine undertone.',
                                         style: GoogleFonts.inter(
-                                          fontSize: 11.5,
+                                          fontSize: 10.5,
                                           fontWeight: FontWeight.w400,
                                           height: 1.25,
                                           color: cMuted,
@@ -805,7 +805,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: (805 - 745) * sx),
+                                SizedBox(width: (805 - 755) * sx),
                               ],
                             ),
                           ),
@@ -864,11 +864,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
 
-                    // 13. Fixed Bottom Footer Status Line (Anchored at the bottom)
+                    // 13. Fixed Bottom Footer Status Line (Anchored slightly upper)
                     Positioned(
                       left: 16,
                       right: 16,
-                      bottom: math.max(12.0, MediaQuery.paddingOf(context).bottom + 4),
+                      bottom: math.max(26.0, MediaQuery.paddingOf(context).bottom + 14),
                       child: Center(
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
