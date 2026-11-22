@@ -124,7 +124,6 @@ void main() {
     await tester.pumpAndSettle();
 
     final guideCard = find.text('How Vistone sees colour');
-    await tester.scrollUntilVisible(guideCard, 200);
     expect(guideCard, findsOneWidget);
     await tester.tap(guideCard);
     await tester.pumpAndSettle();
@@ -147,7 +146,6 @@ void main() {
     await tester.pumpAndSettle();
 
     final daylightItem = find.text('Find gentle daylight');
-    await tester.scrollUntilVisible(daylightItem, 200);
     expect(daylightItem, findsOneWidget);
     await tester.tap(daylightItem);
     await tester.pumpAndSettle();
