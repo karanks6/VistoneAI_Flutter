@@ -142,7 +142,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     // Canvas coordinate reference system: 853 x 1844
     return Scaffold(
-      backgroundColor: isDark ? AppColors.night : const Color(0xFFFAF7F2),
+      backgroundColor: isDark ? const Color(0xFF0C1E1B) : const Color(0xFFFAF7F2),
       body: Align(
         alignment: Alignment.topCenter,
         child: ConstrainedBox(
@@ -159,7 +159,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               // Color tokens matching user typography specification:
               // Header brand & subtitle: Dark Charcoal/Black (#1A1D1A)
               final cBrand = isDark ? AppColors.nightText : const Color(0xFF1A1D1A);
-              final cBrandSub = isDark ? AppColors.nightText : const Color(0xFF1A1D1A);
+              final cBrandSub = isDark ? AppColors.nightMuted : const Color(0xFF1A1D1A);
               // Hero & Section Title: Very Dark Forest Green (#0C251C)
               final cDark = isDark ? AppColors.nightText : const Color(0xFF0C251C);
               // Flash card titles: Dark Charcoal (#222523)
@@ -189,21 +189,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     // 1. Base photographic artwork template spanning the full screen
                     Positioned.fill(
-                      child: isDark
-                          ? ColorFiltered(
-                              colorFilter: ColorFilter.mode(
-                                AppColors.night.withValues(alpha: 0.55),
-                                BlendMode.srcOver,
-                              ),
-                              child: Image.asset(
-                                'assets/images/Text-Free Sage Beauty App Interface.png',
-                                fit: BoxFit.fill,
-                              ),
-                            )
-                          : Image.asset(
-                              'assets/images/Text-Free Sage Beauty App Interface.png',
-                              fit: BoxFit.fill,
-                            ),
+                      child: Image.asset(
+                        isDark
+                            ? 'assets/images/Dark Green Beauty App Interface.png'
+                            : 'assets/images/Text-Free Sage Beauty App Interface.png',
+                        fit: BoxFit.fill,
+                      ),
                     ),
 
                     // 2. Top Header Brand Typography (App Name beside logo)
@@ -261,15 +252,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     height: 44 * sx,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: AppColors.nightSurface,
+                                      color: const Color(0xFF0F221E),
                                       border: Border.all(
-                                        color: AppColors.marigold,
+                                        color: Colors.white.withValues(alpha: 0.8),
                                         width: 1.5,
                                       ),
                                     ),
                                     child: Icon(
                                       LucideIcons.sunMedium,
-                                      color: AppColors.marigold,
+                                      color: Colors.white,
                                       size: 20 * sx,
                                     ),
                                   ),
