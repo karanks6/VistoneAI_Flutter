@@ -200,7 +200,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 2. Top Header Brand Typography (App Name beside logo)
                     Positioned(
                       left: 126 * sx,
-                      top: 116 * sy,
+                      top: (isDark ? 98 : 116) * sy,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -230,10 +230,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                     // 3. Top-Right Theme Toggle Button (Over Moon Icon)
                     Positioned(
-                      left: 686 * sx,
-                      top: 92 * sy,
-                      width: 60 * sx,
-                      height: 60 * sy,
+                      left: (isDark ? 688 : 686) * sx,
+                      top: (isDark ? 78.5 : 92) * sy,
+                      width: (isDark ? 52 : 60) * sx,
+                      height: (isDark ? 52 : 60) * sy,
                       child: Semantics(
                         button: true,
                         label: isDark
@@ -248,13 +248,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: isDark
                               ? Center(
                                   child: Container(
-                                    width: 44 * sx,
-                                    height: 44 * sx,
+                                    width: 48 * sx,
+                                    height: 48 * sx,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: const Color(0xFF0F221E),
                                       border: Border.all(
-                                        color: Colors.white.withValues(alpha: 0.8),
+                                        color: Colors.white.withValues(alpha: 0.9),
                                         width: 1.5,
                                       ),
                                     ),
@@ -273,7 +273,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 4. Top-Right Help Button (Over '?' Icon)
                     Positioned(
                       left: 758 * sx,
-                      top: 92 * sy,
+                      top: (isDark ? 78.5 : 92) * sy,
                       width: 60 * sx,
                       height: 60 * sy,
                       child: Semantics(
@@ -289,7 +289,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 5. Hero Headline Typography ("Dress in your best light.")
                     Positioned(
                       left: 48 * sx,
-                      top: 240 * sy,
+                      top: (isDark ? 222 : 240) * sy,
                       width: 440 * sx,
                       child: Text.rich(
                         TextSpan(
@@ -323,7 +323,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 6. Hero Subtitle Typography
                     Positioned(
                       left: 48 * sx,
-                      top: 406 * sy,
+                      top: (isDark ? 388 : 406) * sy,
                       width: 430 * sx,
                       child: Text(
                         'A thoughtful read of your natural complexion, unlocking curated shades made to bring you forward.',
@@ -342,7 +342,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Positioned(
                         left: 48 * sx,
                         right: 48 * sx,
-                        top: 632 * sy,
+                        top: (isDark ? 618 : 632) * sy,
                         child: Center(
                           child: Text(
                             'Start with a simple selfie',
@@ -359,7 +359,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Positioned(
                         left: 48 * sx,
                         right: 48 * sx,
-                        top: 678 * sy,
+                        top: (isDark ? 664 : 678) * sy,
                         child: Center(
                           child: Text(
                             'Natural light and your lovely, unedited face are all\nyou need for an accurate reading.',
@@ -377,7 +377,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       // Interactive "Choose a photo" Button with camera icon
                       Positioned(
                         left: 105 * sx,
-                        top: 746 * sy,
+                        top: (isDark ? 732 : 746) * sy,
                         width: 642 * sx,
                         height: 84 * sy,
                         child: Semantics(
@@ -419,7 +419,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Positioned(
                         left: 48 * sx,
                         right: 48 * sx,
-                        top: 852 * sy,
+                        top: (isDark ? 836 : 852) * sy,
                         child: Center(
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
@@ -620,7 +620,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 8. Preparation Guide Section Header
                     Positioned(
                       left: 48 * sx,
-                      top: 940 * sy,
+                      top: (isDark ? 922 : 940) * sy,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -644,7 +644,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     Positioned(
                       left: 48 * sx,
-                      top: 1004 * sy,
+                      top: (isDark ? 986 : 1004) * sy,
                       child: Text(
                         'A clear selfie makes an accurate palette.',
                         style: GoogleFonts.inter(
@@ -658,7 +658,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 9. Guide Card 1: Find gentle daylight
                     Positioned(
                       left: 48 * sx,
-                      top: 1088 * sy,
+                      top: (isDark ? 1063 : 1088) * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
@@ -715,7 +715,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 10. Guide Card 2: Keep your face clear
                     Positioned(
                       left: 48 * sx,
-                      top: 1228 * sy,
+                      top: (isDark ? 1212 : 1228) * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
@@ -772,7 +772,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 11. Guide Card 3: Skip beauty filters
                     Positioned(
                       left: 48 * sx,
-                      top: 1368 * sy,
+                      top: (isDark ? 1360 : 1368) * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
