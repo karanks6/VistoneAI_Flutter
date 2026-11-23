@@ -154,4 +154,37 @@ void main() {
     expect(find.text('Find Gentle Daylight'), findsOneWidget);
     expect(find.text('Understood'), findsOneWidget);
   });
+
+  testWidgets(
+      'HomeScreen renders correctly in dark theme using Dark Green Beauty template',
+      (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(450, 1000);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          sharedPreferencesProvider.overrideWithValue(prefs),
+        ],
+        child: MaterialApp(
+          theme: ThemeData.dark(),
+          home: const HomeScreen(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('VISTONE AI'), findsOneWidget);
+    expect(find.text('Colour Studio'), findsOneWidget);
+    expect(find.textContaining('Dress in your'), findsOneWidget);
+    expect(find.textContaining('best light.'), findsOneWidget);
+    expect(find.text('Start with a simple selfie'), findsOneWidget);
+    expect(find.text('Choose a photo'), findsOneWidget);
+    expect(find.text('Preparation Guide'), findsOneWidget);
+    expect(find.text('How Vistone sees colour'), findsOneWidget);
+  });
 }
