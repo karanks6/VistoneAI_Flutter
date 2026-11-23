@@ -156,30 +156,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               final sx = width / 853.0;
               final sy = height / 1844.0;
 
-              // Color tokens sampled directly from design template:
-              // App brand name (#3E4640) and subtitle (#686460)
-              final cBrand = isDark ? AppColors.nightText : const Color(0xFF3E4640);
-              final cBrandSub = isDark ? AppColors.nightMuted : const Color(0xFF686460);
-              // Deep forest pine headings (#0E271D)
-              final cDark = isDark ? AppColors.nightText : const Color(0xFF0E271D);
-              // Flash card titles (#0C1316) and card subtitles (#484A54)
-              final cCardTitle = isDark ? AppColors.nightText : const Color(0xFF0C1316);
-              final cCardSub = isDark ? AppColors.nightMuted : const Color(0xFF484A54);
-              // Warm neutral taupe body/subtitle (#52504D)
-              final cBody = isDark ? AppColors.nightMuted : const Color(0xFF52504D);
-              // Main card title (#1E3127) and subtitle (#56534F)
-              final cCardHead = isDark ? AppColors.nightText : const Color(0xFF1E3127);
-              final cCardBody = isDark ? AppColors.nightMuted : const Color(0xFF56534F);
-              // Privacy note deep pine (#133A2D)
-              final cPrivacy = isDark ? AppColors.sage : const Color(0xFF133A2D);
-              // Button text warm ivory cream (#FAF2E9)
-              final cButtonText = const Color(0xFFFAF2E9);
+              // Color tokens matching user typography specification:
+              // Header brand & subtitle: Dark Charcoal/Black (#1A1D1A)
+              final cBrand = isDark ? AppColors.nightText : const Color(0xFF1A1D1A);
+              final cBrandSub = isDark ? AppColors.nightText : const Color(0xFF1A1D1A);
+              // Hero & Section Title: Very Dark Forest Green (#0C251C)
+              final cDark = isDark ? AppColors.nightText : const Color(0xFF0C251C);
+              // Flash card titles: Dark Charcoal (#222523)
+              final cCardTitle = isDark ? AppColors.nightText : const Color(0xFF222523);
+              // Flash card subtitles: Medium Gray (#5D615F)
+              final cCardSub = isDark ? AppColors.nightMuted : const Color(0xFF5D615F);
+              // Subtitle/Body: Dark Gray/Charcoal (#424543)
+              final cBody = isDark ? AppColors.nightMuted : const Color(0xFF424543);
+              // Action card title: Dark Forest Green (#133A2D)
+              final cCardHead = isDark ? AppColors.nightText : const Color(0xFF133A2D);
+              // Action card body: Medium-Dark Gray (#555856)
+              final cCardBody = isDark ? AppColors.nightMuted : const Color(0xFF555856);
+              // Privacy note: Forest Green (#1E5645)
+              final cPrivacy = isDark ? AppColors.sage : const Color(0xFF1E5645);
+              // Button text: Solid White (#FFFFFF)
+              final cButtonText = Colors.white;
               // Backward-compatible alias for selected image state
               final cGreen = cPrivacy;
               final cMuted = cCardSub;
-              // Footer text (#5A5752) and dot (#4D9B74)
-              final cFooter = isDark ? const Color(0xFF9EABA4) : const Color(0xFF5A5752);
-              final cFooterDot = isDark ? AppColors.sage : const Color(0xFF4D9B74);
+              // Footer text & dot: Dark Forest Green (#133A2D)
+              final cFooter = isDark ? const Color(0xFF9EABA4) : const Color(0xFF133A2D);
+              final cFooterDot = isDark ? AppColors.sage : const Color(0xFF133A2D);
 
               return SizedBox.expand(
                 child: Stack(
@@ -216,7 +218,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             'VISTONE AI',
                             style: GoogleFonts.inter(
                               fontSize: 14.5,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w500,
                               letterSpacing: 1.8,
                               color: cBrand,
                             ),
@@ -305,7 +307,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               text: 'Dress in your\n',
                               style: GoogleFonts.playfairDisplay(
                                 fontSize: 32,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                                 height: 1.1,
                                 letterSpacing: -0.5,
                                 color: cDark,
@@ -356,7 +358,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             textAlign: TextAlign.center,
                             style: GoogleFonts.inter(
                               fontSize: 17,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               letterSpacing: -0.2,
                               color: cCardHead,
                             ),
@@ -409,7 +411,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       'Choose a photo',
                                       style: GoogleFonts.inter(
                                         fontSize: 15.5,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         color: cButtonText,
                                         letterSpacing: 0.3,
                                       ),
@@ -443,7 +445,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   'Processed privately on this device',
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w400,
                                     letterSpacing: 0.2,
                                     color: cPrivacy,
                                   ),
@@ -694,7 +696,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         'Find gentle daylight',
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w500,
                                           color: cCardTitle,
                                         ),
                                       ),
@@ -751,7 +753,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         'Keep your face clear',
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w500,
                                           color: cCardTitle,
                                         ),
                                       ),
@@ -808,7 +810,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         'Skip beauty filters',
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w500,
                                           color: cCardTitle,
                                         ),
                                       ),
@@ -861,7 +863,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           fontSize: 17,
                                           fontWeight: FontWeight.w600,
                                           letterSpacing: 0.2,
-                                          color: const Color(0xFFF7FAF7),
+                                          color: Colors.white,
                                         ),
                                       ),
                                       const SizedBox(height: 3),
@@ -871,7 +873,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           fontSize: 11.5,
                                           fontWeight: FontWeight.w400,
                                           height: 1.25,
-                                          color: const Color(0xFFD2EBE3),
+                                          color: const Color(0xFFE2EBE5),
                                         ),
                                       ),
                                     ],
@@ -909,7 +911,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 'VISTONE AI  •  ON-DEVICE INFERENCE ENGINE',
                                 style: GoogleFonts.inter(
                                   fontSize: 10.5,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   color: cFooter,
                                 ),
