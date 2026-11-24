@@ -230,10 +230,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                     // 3. Top-Right Theme Toggle Button (Over Moon Icon)
                     Positioned(
-                      left: 686 * sx,
-                      top: 92 * sy,
-                      width: 60 * sx,
-                      height: 60 * sy,
+                      left: 681 * sx,
+                      top: 97 * sy,
+                      width: 58 * sx,
+                      height: 58 * sy,
                       child: Semantics(
                         button: true,
                         label: isDark
@@ -248,8 +248,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: isDark
                               ? Center(
                                   child: Container(
-                                    width: 48 * sx,
-                                    height: 48 * sx,
+                                    width: 58 * sx,
+                                    height: 58 * sx,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: const Color(0xFF0F221E),
@@ -261,7 +261,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     child: Icon(
                                       LucideIcons.sunMedium,
                                       color: Colors.white,
-                                      size: 20 * sx,
+                                      size: 24 * sx,
                                     ),
                                   ),
                                 )
@@ -377,9 +377,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       // Interactive "Choose a photo" Button with camera icon
                       Positioned(
                         left: 105 * sx,
-                        top: 746 * sy,
+                        top: 753 * sy,
                         width: 642 * sx,
-                        height: 84 * sy,
+                        height: 86 * sy,
                         child: Semantics(
                           button: true,
                           label: 'Choose a photo from gallery or camera',
@@ -620,7 +620,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 8. Preparation Guide Section Header
                     Positioned(
                       left: 48 * sx,
-                      top: (isDark ? 935 : 940) * sy,
+                      top: (isDark ? 918 : 922) * sy,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -661,7 +661,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 9. Guide Card 1: Find gentle daylight
                     Positioned(
                       left: 48 * sx,
-                      top: (isDark ? 1054 : 1072) * sy,
+                      top: (isDark ? 1062 : 1072) * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
@@ -718,7 +718,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 10. Guide Card 2: Keep your face clear
                     Positioned(
                       left: 48 * sx,
-                      top: (isDark ? 1202 : 1214) * sy,
+                      top: (isDark ? 1210 : 1218) * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
@@ -775,7 +775,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 11. Guide Card 3: Skip beauty filters
                     Positioned(
                       left: 48 * sx,
-                      top: (isDark ? 1340 : 1350) * sy,
+                      top: (isDark ? 1356 : 1358) * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
