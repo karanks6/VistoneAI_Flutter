@@ -248,13 +248,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: isDark
                               ? Center(
                                   child: Container(
-                                    width: 44 * sx,
-                                    height: 44 * sx,
+                                    width: 48 * sx,
+                                    height: 48 * sx,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: const Color(0xFF0F221E),
                                       border: Border.all(
-                                        color: Colors.white.withValues(alpha: 0.8),
+                                        color: Colors.white.withValues(alpha: 0.9),
                                         width: 1.5,
                                       ),
                                     ),
@@ -620,45 +620,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 8. Preparation Guide Section Header
                     Positioned(
                       left: 48 * sx,
-                      top: 940 * sy,
-                      child: Row(
+                      top: (isDark ? 935 : 940) * sy,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                            LucideIcons.lightbulb,
-                            color: cDark,
-                            size: 22,
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                LucideIcons.lightbulb,
+                                color: cDark,
+                                size: 22,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Preparation Guide',
+                                style: GoogleFonts.playfairDisplay(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                  color: cDark,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(height: 6),
                           Text(
-                            'Preparation Guide',
-                            style: GoogleFonts.playfairDisplay(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                              color: cDark,
+                            'A clear selfie makes an accurate palette.',
+                            style: GoogleFonts.inter(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w400,
+                              color: cBody,
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    Positioned(
-                      left: 48 * sx,
-                      top: 1004 * sy,
-                      child: Text(
-                        'A clear selfie makes an accurate palette.',
-                        style: GoogleFonts.inter(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w400,
-                          color: cBody,
-                        ),
                       ),
                     ),
 
                     // 9. Guide Card 1: Find gentle daylight
                     Positioned(
                       left: 48 * sx,
-                      top: 1088 * sy,
+                      top: (isDark ? 1054 : 1072) * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
@@ -715,7 +718,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 10. Guide Card 2: Keep your face clear
                     Positioned(
                       left: 48 * sx,
-                      top: 1228 * sy,
+                      top: (isDark ? 1202 : 1214) * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
@@ -772,7 +775,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // 11. Guide Card 3: Skip beauty filters
                     Positioned(
                       left: 48 * sx,
-                      top: 1368 * sy,
+                      top: (isDark ? 1340 : 1350) * sy,
                       width: 757 * sx,
                       child: Semantics(
                         button: true,
