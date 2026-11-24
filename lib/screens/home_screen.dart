@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import '../providers/analysis_provider.dart';
 import '../providers/theme_provider.dart';
 import '../widgets/design_system.dart';
 import 'upload_bottom_sheet.dart';
@@ -138,7 +137,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final selectedImage = ref.watch(selectedImageProvider);
 
     // Canvas coordinate reference system: 853 x 1844
     return Scaffold(
@@ -176,9 +174,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               final cPrivacy = isDark ? AppColors.sage : const Color(0xFF1E5645);
               // Button text: Solid White (#FFFFFF)
               final cButtonText = Colors.white;
-              // Backward-compatible alias for selected image state
-              final cGreen = cPrivacy;
-              final cMuted = cCardSub;
               // Footer text & dot: Dark Forest Green (#133A2D)
               final cFooter = isDark ? const Color(0xFF9EABA4) : const Color(0xFF133A2D);
               final cFooterDot = isDark ? AppColors.sage : const Color(0xFF133A2D);
@@ -336,286 +331,114 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
 
-                    // 7. Main Card Content Area (or Selected Image Preview)
-                    if (selectedImage == null) ...[
-                      // Unselected state: exact text & "Choose a photo" button matching template
-                      Positioned(
-                        left: 48 * sx,
-                        right: 48 * sx,
-                        top: 632 * sy,
-                        child: Center(
-                          child: Text(
-                            'Start with a simple selfie',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: -0.2,
-                              color: cCardHead,
-                            ),
+                    // 7. Main Card Content Area (Action Card)
+                    Positioned(
+                      left: 48 * sx,
+                      right: 48 * sx,
+                      top: 632 * sy,
+                      child: Center(
+                        child: Text(
+                          'Start with a simple selfie',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.inter(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.2,
+                            color: cCardHead,
                           ),
                         ),
                       ),
-                      Positioned(
-                        left: 48 * sx,
-                        right: 48 * sx,
-                        top: 678 * sy,
-                        child: Center(
-                          child: Text(
-                            'Natural light and your lovely, unedited face are all\nyou need for an accurate reading.',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              fontSize: 12.5,
-                              fontWeight: FontWeight.w400,
-                              height: 1.32,
-                              color: cCardBody,
-                            ),
+                    ),
+                    Positioned(
+                      left: 48 * sx,
+                      right: 48 * sx,
+                      top: 678 * sy,
+                      child: Center(
+                        child: Text(
+                          'Natural light and your lovely, unedited face are all\nyou need for an accurate reading.',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.inter(
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.w400,
+                            height: 1.32,
+                            color: cCardBody,
                           ),
                         ),
                       ),
+                    ),
 
-                      // Interactive "Choose a photo" Button with camera icon
-                      Positioned(
-                        left: 105 * sx,
-                        top: 753 * sy,
-                        width: 642 * sx,
-                        height: 86 * sy,
-                        child: Semantics(
-                          button: true,
-                          label: 'Choose a photo from gallery or camera',
-                          child: _AnimatedPillButton(
-                            onTap: () => _showUploadOptions(context),
-                            child: Center(
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      LucideIcons.camera,
-                                      color: cButtonText,
-                                      size: 19,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      'Choose a photo',
-                                      style: GoogleFonts.inter(
-                                        fontSize: 15.5,
-                                        fontWeight: FontWeight.w500,
-                                        color: cButtonText,
-                                        letterSpacing: 0.3,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // "Processed privately on this device" note
-                      Positioned(
-                        left: 48 * sx,
-                        right: 48 * sx,
-                        top: 852 * sy,
-                        child: Center(
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  LucideIcons.lock,
-                                  color: cPrivacy,
-                                  size: 13,
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  'Processed privately on this device',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 0.2,
-                                    color: cPrivacy,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ] else ...[
-                      // Selected Image State: Elegant preview overlay within the card
-                      Positioned(
-                        left: 55 * sx,
-                        top: 545 * sy,
-                        width: 743 * sx,
-                        height: 385 * sy,
-                        child: Container(
-                          padding: EdgeInsets.all(16 * sx),
-                          decoration: BoxDecoration(
-                            color: isDark
-                                ? AppColors.nightSurface
-                                : Colors.white.withValues(alpha: 0.96),
-                            borderRadius: BorderRadius.circular(28 * sx),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.08),
-                                blurRadius: 18,
-                                offset: const Offset(0, 6),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(16 * sx),
-                                      child: Image.file(
-                                        selectedImage,
-                                        width: 130 * sx,
-                                        height: double.infinity,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    SizedBox(width: 16 * sx),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                              vertical: 4,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: cGreen
-                                                  .withValues(alpha: 0.15),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      AppRadii.pill),
-                                            ),
-                                            child: Text(
-                                              'PHOTO READY',
-                                              style: GoogleFonts.inter(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w700,
-                                                letterSpacing: 1.2,
-                                                color: cGreen,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 6),
-                                          Text(
-                                            'Ready for Monk Scale Analysis',
-                                            style: GoogleFonts.inter(
-                                              fontSize: 14.5,
-                                              fontWeight: FontWeight.w700,
-                                              color: cDark,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 3),
-                                          Text(
-                                            'Skin pixel sampling and tone matrix calibrated.',
-                                            style: GoogleFonts.inter(
-                                              fontSize: 11.5,
-                                              color: cMuted,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              Row(
+                    // Interactive "Choose a photo" Button with camera icon
+                    Positioned(
+                      left: 105 * sx,
+                      top: 753 * sy,
+                      width: 642 * sx,
+                      height: 86 * sy,
+                      child: Semantics(
+                        button: true,
+                        label: 'Choose a photo from gallery or camera',
+                        child: _AnimatedPillButton(
+                          onTap: () => _showUploadOptions(context),
+                          child: Center(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: SizedBox(
-                                      height: 48 * sy,
-                                      child: ElevatedButton.icon(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              const Color(0xFF143B2F),
-                                          foregroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(
-                                                    AppRadii.pill),
-                                          ),
-                                        ),
-                                        icon: const Icon(
-                                          LucideIcons.sparkles,
-                                          size: 16,
-                                        ),
-                                        label: Text(
-                                          'Analyse Complexion',
-                                          style: GoogleFonts.inter(
-                                            fontSize: 13.5,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          HapticFeedback.lightImpact();
-                                          ref
-                                              .read(analysisProvider.notifier)
-                                              .reset();
-                                          context.push('/analyzing');
-                                          ref
-                                              .read(analysisProvider.notifier)
-                                              .analyze(selectedImage);
-                                        },
-                                      ),
-                                    ),
+                                  Icon(
+                                    LucideIcons.camera,
+                                    color: cButtonText,
+                                    size: 19,
                                   ),
                                   const SizedBox(width: 8),
-                                  Expanded(
-                                    flex: 2,
-                                    child: SizedBox(
-                                      height: 48 * sy,
-                                      child: OutlinedButton(
-                                        style: OutlinedButton.styleFrom(
-                                          foregroundColor: cDark,
-                                          side: BorderSide(
-                                            color: isDark
-                                                ? AppColors.nightLine
-                                                : const Color(0xFFDFE6E1),
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(
-                                                    AppRadii.pill),
-                                          ),
-                                        ),
-                                        onPressed: () =>
-                                            _showUploadOptions(context),
-                                        child: Text(
-                                          'Change',
-                                          style: GoogleFonts.inter(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
+                                  Text(
+                                    'Choose a photo',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.w500,
+                                      color: cButtonText,
+                                      letterSpacing: 0.3,
                                     ),
                                   ),
                                 ],
                               ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // "Processed privately on this device" note
+                    Positioned(
+                      left: 48 * sx,
+                      right: 48 * sx,
+                      top: 852 * sy,
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                LucideIcons.lock,
+                                color: cPrivacy,
+                                size: 13,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                'Processed privately on this device',
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 0.2,
+                                  color: cPrivacy,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
-                    ],
+                    ),
 
                     // 8. Preparation Guide Section Header
                     Positioned(
