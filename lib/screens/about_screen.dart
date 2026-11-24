@@ -317,11 +317,46 @@ class _PrivacyTechnologyCard extends StatelessWidget {
 class _DeveloperCard extends StatelessWidget {
   const _DeveloperCard();
 
-  Future<void> _openUrl(String url) async {
-    HapticFeedback.lightImpact();
+  Future<void> _openUrl(BuildContext context, String url) async {
+    await HapticFeedback.lightImpact();
     final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    bool launched = false;
+
+    // 1. Primary: Launch in external app (system browser, mail client, Instagram app)
+    try {
+      launched = await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (_) {
+      launched = false;
+    }
+
+    // 2. Secondary fallback: Platform default / in-app view if external intent didn't succeed
+    if (!launched) {
+      try {
+        launched = await launchUrl(
+          uri,
+          mode: LaunchMode.platformDefault,
+        );
+      } catch (_) {
+        launched = false;
+      }
+    }
+
+    // 3. Graceful fallback: Copy to clipboard & notify if device cannot open URL
+    if (!launched && context.mounted) {
+      final cleanText = url.startsWith('mailto:') ? url.substring(7) : url;
+      await Clipboard.setData(ClipboardData(text: cleanText));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Copied link: $cleanText'),
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
   }
 
@@ -335,31 +370,34 @@ class _DeveloperCard extends StatelessWidget {
     return Semantics(
       button: true,
       label: semanticLabel,
-      child: InkWell(
-        onTap: () => _openUrl(url),
-        borderRadius: BorderRadius.circular(AppRadii.sm),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-          child: Row(
-            children: [
-              Icon(icon, size: 18, color: AppColors.clay),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  label,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                  overflow: TextOverflow.ellipsis,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => _openUrl(context, url),
+          borderRadius: BorderRadius.circular(AppRadii.sm),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+            child: Row(
+              children: [
+                Icon(icon, size: 18, color: AppColors.clay),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    label,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Icon(
-                LucideIcons.arrowUpRight,
-                size: 14,
-                color: AppColors.clay.withValues(alpha: 0.6),
-              ),
-            ],
+                const SizedBox(width: 8),
+                Icon(
+                  LucideIcons.arrowUpRight,
+                  size: 14,
+                  color: AppColors.clay.withValues(alpha: 0.6),
+                ),
+              ],
+            ),
           ),
         ),
       ),
