@@ -291,11 +291,13 @@ class _PrivacyTechnologyCard extends StatelessWidget {
             children: [
               const Icon(LucideIcons.shieldCheck, color: AppColors.success, size: 20),
               const SizedBox(width: 10),
-              Text(
-                'Respectfully Private & Offline',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+              Expanded(
+                child: Text(
+                  'Respectfully Private & Offline',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
               ),
             ],
           ),
@@ -319,8 +321,49 @@ class _DeveloperCard extends StatelessWidget {
     HapticFeedback.lightImpact();
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
+  }
+
+  Widget _buildLinkRow(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required String url,
+    required String semanticLabel,
+  }) {
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      child: InkWell(
+        onTap: () => _openUrl(url),
+        borderRadius: BorderRadius.circular(AppRadii.sm),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+          child: Row(
+            children: [
+              Icon(icon, size: 18, color: AppColors.clay),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Icon(
+                LucideIcons.arrowUpRight,
+                size: 14,
+                color: AppColors.clay.withValues(alpha: 0.6),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -337,19 +380,27 @@ class _DeveloperCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'LEAD ARCHITECT',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.textTertiary,
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w800,
-                    ),
+              Expanded(
+                child: Text(
+                  'LEAD ARCHITECT & DEVELOPER',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: AppColors.textTertiary,
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w800,
+                      ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                   color: AppColors.clay.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(AppRadii.pill),
+                  border: Border.all(
+                    color: AppColors.clay.withValues(alpha: 0.25),
+                    width: 1,
+                  ),
                 ),
                 child: Text(
                   'v1.0.0+1',
@@ -368,45 +419,64 @@ class _DeveloperCard extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
           ),
-          const SizedBox(height: 16),
-          InkWell(
-            onTap: () => _openUrl('mailto:suvarnakaran77@gmail.com'),
-            borderRadius: BorderRadius.circular(AppRadii.sm),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                children: [
-                  const Icon(LucideIcons.mail, size: 18, color: AppColors.clay),
-                  const SizedBox(width: 10),
-                  Text(
-                    'suvarnakaran77@gmail.com',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                ],
-              ),
-            ),
+          const SizedBox(height: 14),
+          _buildLinkRow(
+            context,
+            icon: LucideIcons.mail,
+            label: 'suvarnakaran77@gmail.com',
+            url: 'mailto:suvarnakaran77@gmail.com',
+            semanticLabel: 'Send email to suvarnakaran77@gmail.com',
           ),
-          const SizedBox(height: 8),
-          InkWell(
-            onTap: () => _openUrl('https://github.com/karanks6'),
-            borderRadius: BorderRadius.circular(AppRadii.sm),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                children: [
-                  const Icon(LucideIcons.github, size: 18, color: AppColors.clay),
-                  const SizedBox(width: 10),
-                  Text(
-                    'github.com/karanks6',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                ],
+          const SizedBox(height: 4),
+          _buildLinkRow(
+            context,
+            icon: LucideIcons.github,
+            label: 'github.com/karanks6',
+            url: 'https://github.com/karanks6',
+            semanticLabel: 'Visit GitHub profile karanks6',
+          ),
+          const SizedBox(height: 4),
+          _buildLinkRow(
+            context,
+            icon: LucideIcons.globe,
+            label: 'aboutkaran.vercel.app',
+            url: 'https://aboutkaran.vercel.app/',
+            semanticLabel: 'Visit portfolio website aboutkaran.vercel.app',
+          ),
+          const SizedBox(height: 4),
+          _buildLinkRow(
+            context,
+            icon: LucideIcons.instagram,
+            label: 'instagram.com/_karan_suvarna_',
+            url: 'https://www.instagram.com/_karan_suvarna_?exln=dHo4NGF2aWcyNDNu',
+            semanticLabel: 'Visit Instagram profile _karan_suvarna_',
+          ),
+          const SizedBox(height: 14),
+          Divider(
+            height: 1,
+            color: dark ? AppColors.nightLine : AppColors.claySoft,
+          ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  'App Version',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: AppColors.textTertiary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
               ),
-            ),
+              Text(
+                'v1.0.0+1 (Build 1)',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: AppColors.clay,
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
+            ],
           ),
         ],
       ),
