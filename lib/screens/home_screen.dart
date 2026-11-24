@@ -230,10 +230,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                     // 3. Top-Right Theme Toggle Button (Over Moon Icon)
                     Positioned(
-                      left: 681 * sx,
-                      top: 97 * sy,
-                      width: 58 * sx,
-                      height: 58 * sy,
+                      left: 686 * sx,
+                      top: 92 * sy,
+                      width: 60 * sx,
+                      height: 60 * sy,
                       child: Semantics(
                         button: true,
                         label: isDark
@@ -248,8 +248,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: isDark
                               ? Center(
                                   child: Container(
-                                    width: 58 * sx,
-                                    height: 58 * sx,
+                                    width: 59 * sx,
+                                    height: 59 * sx,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: const Color(0xFF0F221E),
