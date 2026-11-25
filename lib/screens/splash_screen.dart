@@ -288,60 +288,55 @@ class _SplashScreenState extends State<SplashScreen>
 
                 return SingleChildScrollView(
                   physics: const ClampingScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: maxContentWidth),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horizontalPad,
-                            vertical: verticalPad,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _TopStudioHeader(
-                                palette: palette,
-                                isReadyForManualEntry: accessibleNavigation,
-                                reduceMotion: reduceMotion,
-                                isHighScale: isHighScale,
-                                onSkip: _proceed,
-                              ),
-                              SizedBox(
-                                height: isCompact
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: maxContentWidth,
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: horizontalPad,
+                          vertical: verticalPad,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _TopStudioHeader(
+                              palette: palette,
+                              isReadyForManualEntry: accessibleNavigation,
+                              reduceMotion: reduceMotion,
+                              isHighScale: isHighScale,
+                              onSkip: _proceed,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: isCompact
                                     ? AppSpacing.lg
                                     : AppSpacing.xxl,
                               ),
-                              if (isWide)
-                                _WideEditorialStage(
-                                  palette: palette,
-                                  constraints: constraints,
-                                  isHighScale: isHighScale,
-                                  progress: _timelineController,
-                                  reduceMotion: reduceMotion,
-                                )
-                              else
-                                _CompactEditorialStage(
-                                  palette: palette,
-                                  constraints: constraints,
-                                  isCompact: isCompact,
-                                  isHighScale: isHighScale,
-                                  progress: _timelineController,
-                                  reduceMotion: reduceMotion,
-                                ),
-                              SizedBox(
-                                height: isCompact
-                                    ? AppSpacing.lg
-                                    : AppSpacing.xxl,
-                              ),
-                              _StudioFooterMark(palette: palette),
-                            ],
-                          ),
+                              child: isWide
+                                  ? _WideEditorialStage(
+                                      palette: palette,
+                                      constraints: constraints,
+                                      isHighScale: isHighScale,
+                                      progress: _timelineController,
+                                      reduceMotion: reduceMotion,
+                                    )
+                                  : _CompactEditorialStage(
+                                      palette: palette,
+                                      constraints: constraints,
+                                      isCompact: isCompact,
+                                      isHighScale: isHighScale,
+                                      progress: _timelineController,
+                                      reduceMotion: reduceMotion,
+                                    ),
+                            ),
+                            _StudioFooterMark(palette: palette),
+                          ],
                         ),
                       ),
                     ),
