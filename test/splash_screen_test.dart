@@ -85,7 +85,8 @@ ThemeData _buildTestTheme(Brightness brightness) {
 }
 
 void main() {
-  Widget buildTestApp({
+  Widget buildTestApp(
+    WidgetTester tester, {
     bool disableAnimations = false,
     bool accessibleNavigation = false,
     bool boldText = false,
@@ -94,6 +95,13 @@ void main() {
     ThemeData? themeOverride,
     ThemeMode themeMode = ThemeMode.light,
   }) {
+    tester.view.physicalSize = size;
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
     final router = GoRouter(
       initialLocation: '/splash',
       routes: [
@@ -130,7 +138,7 @@ void main() {
     'SplashScreen renders editorial brand header, swatch fan, and meets Light Mode guidelines',
     (WidgetTester tester) async {
       final handle = tester.ensureSemantics();
-      await tester.pumpWidget(buildTestApp());
+      await tester.pumpWidget(buildTestApp(tester));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 1400));
 
@@ -142,6 +150,14 @@ void main() {
       );
       expect(find.text('ON-DEVICE COLOUR STUDIO'), findsOneWidget);
       expect(find.text('Skip'), findsOneWidget);
+
+      // Verify top header & Skip are pinned near the top and footer near the bottom (850px viewport)
+      expect(tester.getTopLeft(find.text('VISTONE AI').first).dy, lessThan(60));
+      expect(tester.getTopLeft(find.text('Skip')).dy, lessThan(60));
+      expect(
+        tester.getBottomLeft(find.text('ON-DEVICE COLOUR STUDIO')).dy,
+        greaterThan(790),
+      );
 
       // Compiled SemanticsNode check for Skip button & label-in-name
       final skipSemantics = tester.getSemantics(
@@ -166,7 +182,7 @@ void main() {
     'SplashScreen meets contrast and accessibility guidelines in Dark Mode',
     (WidgetTester tester) async {
       final handle = tester.ensureSemantics();
-      await tester.pumpWidget(buildTestApp(themeMode: ThemeMode.dark));
+      await tester.pumpWidget(buildTestApp(tester, themeMode: ThemeMode.dark));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 1400));
 
@@ -185,7 +201,7 @@ void main() {
   testWidgets('Tapping Skip triggers navigation to /home', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(buildTestApp());
+    await tester.pumpWidget(buildTestApp(tester));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
@@ -198,7 +214,7 @@ void main() {
   testWidgets(
     'Keyboard Tab focus and Enter activation triggers Skip navigation',
     (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp());
+      await tester.pumpWidget(buildTestApp(tester));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
@@ -214,7 +230,7 @@ void main() {
   testWidgets(
     'SplashScreen auto-navigates to /home after editorial reveal duration',
     (WidgetTester tester) async {
-      await tester.pumpWidget(buildTestApp());
+      await tester.pumpWidget(buildTestApp(tester));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 50));
 
@@ -228,7 +244,7 @@ void main() {
   testWidgets('SplashScreen respects reduced motion accessibility', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(buildTestApp(disableAnimations: true));
+    await tester.pumpWidget(buildTestApp(tester, disableAnimations: true));
     await tester.pump();
     await tester.pumpAndSettle();
 
@@ -240,7 +256,11 @@ void main() {
     (WidgetTester tester) async {
       final handle = tester.ensureSemantics();
       await tester.pumpWidget(
-        buildTestApp(accessibleNavigation: true, disableAnimations: true),
+        buildTestApp(
+          tester,
+          accessibleNavigation: true,
+          disableAnimations: true,
+        ),
       );
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 3000));
@@ -274,6 +294,7 @@ void main() {
       final handle = tester.ensureSemantics();
       await tester.pumpWidget(
         buildTestApp(
+          tester,
           textScaleFactor: 2.0,
           boldText: true,
           size: const Size(360, 640),
@@ -296,7 +317,7 @@ void main() {
     WidgetTester tester,
   ) async {
     final handle = tester.ensureSemantics();
-    await tester.pumpWidget(buildTestApp(size: const Size(900, 700)));
+    await tester.pumpWidget(buildTestApp(tester, size: const Size(900, 700)));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 1400));
 
@@ -314,7 +335,9 @@ void main() {
     WidgetTester tester,
   ) async {
     final handle = tester.ensureSemantics();
-    await tester.pumpWidget(buildTestApp(themeOverride: ThemeData.light()));
+    await tester.pumpWidget(
+      buildTestApp(tester, themeOverride: ThemeData.light()),
+    );
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 1400));
 
