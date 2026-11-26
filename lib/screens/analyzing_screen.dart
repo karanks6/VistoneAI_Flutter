@@ -37,7 +37,9 @@ class _AnalyzingScreenState extends ConsumerState<AnalyzingScreen>
   Widget build(BuildContext context) {
     final state = ref.watch(analysisProvider);
     final image = ref.watch(selectedImageProvider);
-    final stage = state is AnalysisLoading ? state.stage : 'Initiating neural analysis...';
+    final stage = state is AnalysisLoading
+        ? state.stage
+        : 'Initiating neural analysis...';
     final stageIndex = _indexFor(stage);
 
     ref.listen<AnalysisState>(analysisProvider, (previous, next) {
@@ -74,22 +76,23 @@ class _AnalyzingScreenState extends ConsumerState<AnalyzingScreen>
                             children: [
                               Text(
                                 'Reading your palette',
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700),
                               ),
                               const SizedBox(height: 2),
                               Text(
                                 'Biometric skin tone & undertone engine',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: AppColors.textTertiary,
-                                    ),
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(color: AppColors.textTertiary),
                               ),
                             ],
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.surfaceSage,
                             borderRadius: BorderRadius.circular(AppRadii.pill),
@@ -112,7 +115,8 @@ class _AnalyzingScreenState extends ConsumerState<AnalyzingScreen>
                               const SizedBox(width: 6),
                               Text(
                                 'ACTIVE',
-                                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                style: Theme.of(context).textTheme.labelSmall
+                                    ?.copyWith(
                                       color: AppColors.forestDeep,
                                       fontWeight: FontWeight.w800,
                                       letterSpacing: 1.1,
@@ -133,12 +137,15 @@ class _AnalyzingScreenState extends ConsumerState<AnalyzingScreen>
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             _PortraitScannerView(
-                              controller: _scanController,
-                              image: image,
-                            )
+                                  controller: _scanController,
+                                  image: image,
+                                )
                                 .animate()
                                 .fadeIn(duration: 400.ms)
-                                .scale(begin: const Offset(0.97, 0.97), curve: Curves.easeOutCubic),
+                                .scale(
+                                  begin: const Offset(0.97, 0.97),
+                                  curve: Curves.easeOutCubic,
+                                ),
                             const SizedBox(height: 24),
 
                             // Stage title
@@ -150,15 +157,17 @@ class _AnalyzingScreenState extends ConsumerState<AnalyzingScreen>
                                   Text(
                                     stage,
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(fontWeight: FontWeight.w700),
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
                                     'Mapping 468 facial landmark coordinates and sampling 10,000+ pixels.',
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
                                           color: AppColors.textSecondary,
                                         ),
                                   ),
@@ -173,12 +182,19 @@ class _AnalyzingScreenState extends ConsumerState<AnalyzingScreen>
 
                             // Privacy assurance
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 12,
+                              ),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? AppColors.nightSurfaceRaised
                                     : AppColors.surfaceSage,
-                                borderRadius: BorderRadius.circular(AppRadii.md),
+                                borderRadius: BorderRadius.circular(
+                                  AppRadii.md,
+                                ),
                               ),
                               child: Row(
                                 children: [
@@ -191,9 +207,10 @@ class _AnalyzingScreenState extends ConsumerState<AnalyzingScreen>
                                   Expanded(
                                     child: Text(
                                       'Offline processing: No biometric data or imagery leaves your device.',
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                            height: 1.35,
-                                          ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(height: 1.35),
                                     ),
                                   ),
                                 ],
@@ -229,12 +246,23 @@ class _AnalyzingScreenState extends ConsumerState<AnalyzingScreen>
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.lg)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadii.lg),
+        ),
         title: Row(
           children: [
-            const Icon(LucideIcons.alertCircle, color: AppColors.clay, size: 24),
+            const Icon(
+              LucideIcons.alertCircle,
+              color: AppColors.clay,
+              size: 24,
+            ),
             const SizedBox(width: 10),
-            Text('Could not complete analysis', style: Theme.of(dialogContext).textTheme.titleLarge),
+            Expanded(
+              child: Text(
+                'Could not complete analysis',
+                style: Theme.of(dialogContext).textTheme.titleLarge,
+              ),
+            ),
           ],
         ),
         content: Text(
@@ -287,7 +315,11 @@ class _PortraitScannerView extends StatelessWidget {
               else
                 Container(
                   color: AppColors.surfaceSage,
-                  child: const Icon(LucideIcons.user, size: 80, color: AppColors.sage),
+                  child: const Icon(
+                    LucideIcons.user,
+                    size: 80,
+                    color: AppColors.sage,
+                  ),
                 ),
 
               // Ambient scan vignette
@@ -342,7 +374,10 @@ class _PortraitScannerView extends StatelessWidget {
                 bottom: 16,
                 left: 16,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 7,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.night.withValues(alpha: 0.75),
                     borderRadius: BorderRadius.circular(AppRadii.pill),
@@ -365,10 +400,10 @@ class _PortraitScannerView extends StatelessWidget {
                       Text(
                         'FACIAL MESH SCANNER',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: AppColors.textInverse,
-                              letterSpacing: 1.1,
-                              fontWeight: FontWeight.w700,
-                            ),
+                          color: AppColors.textInverse,
+                          letterSpacing: 1.1,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),
@@ -391,10 +426,22 @@ class _ScanBrackets extends StatelessWidget {
       padding: const EdgeInsets.all(22),
       child: Stack(
         children: const [
-          Align(alignment: Alignment.topLeft, child: _BracketCorner(rotation: 0)),
-          Align(alignment: Alignment.topRight, child: _BracketCorner(rotation: 1)),
-          Align(alignment: Alignment.bottomRight, child: _BracketCorner(rotation: 2)),
-          Align(alignment: Alignment.bottomLeft, child: _BracketCorner(rotation: 3)),
+          Align(
+            alignment: Alignment.topLeft,
+            child: _BracketCorner(rotation: 0),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: _BracketCorner(rotation: 1),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: _BracketCorner(rotation: 2),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: _BracketCorner(rotation: 3),
+          ),
         ],
       ),
     );
@@ -451,7 +498,9 @@ class _ModernStepsTracker extends StatelessWidget {
           final item = steps[index];
 
           return Padding(
-            padding: EdgeInsets.only(bottom: index == steps.length - 1 ? 0 : 14),
+            padding: EdgeInsets.only(
+              bottom: index == steps.length - 1 ? 0 : 14,
+            ),
             child: Row(
               children: [
                 AnimatedContainer(
@@ -463,28 +512,35 @@ class _ModernStepsTracker extends StatelessWidget {
                     color: done
                         ? AppColors.success
                         : active
-                            ? AppColors.forest
-                            : (dark ? AppColors.nightSurface : AppColors.surfaceMuted),
+                        ? AppColors.forest
+                        : (dark
+                              ? AppColors.nightSurface
+                              : AppColors.surfaceMuted),
                     shape: BoxShape.circle,
                   ),
                   child: done
-                      ? const Icon(LucideIcons.check, size: 14, color: AppColors.textInverse)
+                      ? const Icon(
+                          LucideIcons.check,
+                          size: 14,
+                          color: AppColors.textInverse,
+                        )
                       : active
-                          ? const SizedBox(
-                              width: 12,
-                              height: 12,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 1.8,
-                                color: AppColors.textInverse,
+                      ? const SizedBox(
+                          width: 12,
+                          height: 12,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.8,
+                            color: AppColors.textInverse,
+                          ),
+                        )
+                      : Text(
+                          '${index + 1}',
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(
+                                color: AppColors.textTertiary,
+                                fontWeight: FontWeight.w700,
                               ),
-                            )
-                          : Text(
-                              '${index + 1}',
-                              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                    color: AppColors.textTertiary,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                            ),
+                        ),
                 ),
                 const SizedBox(width: 14),
                 Expanded(
@@ -494,16 +550,18 @@ class _ModernStepsTracker extends StatelessWidget {
                       Text(
                         item.$1,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              fontWeight: active || done ? FontWeight.w700 : FontWeight.w500,
-                              color: active || done ? null : AppColors.textTertiary,
-                            ),
+                          fontWeight: active || done
+                              ? FontWeight.w700
+                              : FontWeight.w500,
+                          color: active || done ? null : AppColors.textTertiary,
+                        ),
                       ),
                       Text(
                         item.$2,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: AppColors.textTertiary,
-                              fontSize: 11,
-                            ),
+                          color: AppColors.textTertiary,
+                          fontSize: 11,
+                        ),
                       ),
                     ],
                   ),
@@ -512,19 +570,19 @@ class _ModernStepsTracker extends StatelessWidget {
                   Text(
                     'COMPLETE',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: AppColors.success,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 10,
-                        ),
+                      color: AppColors.success,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 10,
+                    ),
                   )
                 else if (active)
                   Text(
                     'ANALYZING',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 10,
-                        ),
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 10,
+                    ),
                   ),
               ],
             ),
