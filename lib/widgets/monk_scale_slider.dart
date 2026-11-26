@@ -43,48 +43,74 @@ class _MonkScaleSliderState extends State<MonkScaleSlider> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Icon(LucideIcons.scale, size: 16, color: AppColors.clay),
-                  const SizedBox(width: 8),
-                  Text(
-                    'MONK SKIN TONE SCALE',
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      LucideIcons.scale,
+                      size: 16,
+                      color: AppColors.clay,
+                    ),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        'MONK SKIN TONE SCALE',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                           letterSpacing: 1.4,
                           fontWeight: FontWeight.w800,
                         ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                decoration: BoxDecoration(
-                  color: isSelectedDetected ? AppColors.surfaceClay : (dark ? AppColors.nightSurface : AppColors.surfaceMuted),
-                  borderRadius: BorderRadius.circular(AppRadii.pill),
-                  border: Border.all(
-                    color: isSelectedDetected ? AppColors.clay.withValues(alpha: 0.5) : (dark ? AppColors.nightLine : AppColors.line),
-                  ),
-                ),
-                child: Text(
-                  isSelectedDetected ? 'YOUR MATCH: MST ${_inspectedTone.toString().padLeft(2, '0')}' : 'INSPECTING: MST ${_inspectedTone.toString().padLeft(2, '0')}',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: isSelectedDetected ? AppColors.clay : AppColors.textTertiary,
-                        fontWeight: FontWeight.w700,
                       ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 9,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isSelectedDetected
+                        ? AppColors.surfaceClay
+                        : (dark
+                              ? AppColors.nightSurface
+                              : AppColors.surfaceMuted),
+                    borderRadius: BorderRadius.circular(AppRadii.pill),
+                    border: Border.all(
+                      color: isSelectedDetected
+                          ? AppColors.clay.withValues(alpha: 0.5)
+                          : (dark ? AppColors.nightLine : AppColors.line),
+                    ),
+                  ),
+                  child: Text(
+                    isSelectedDetected
+                        ? 'YOUR MATCH: MST ${_inspectedTone.toString().padLeft(2, '0')}'
+                        : 'INSPECTING: MST ${_inspectedTone.toString().padLeft(2, '0')}',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: isSelectedDetected
+                          ? AppColors.clay
+                          : AppColors.textTertiary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 6),
           Text(
             '10-point inclusive skin spectrum developed for AI equity and color calibration.',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: dark ? AppColors.nightMuted : AppColors.textTertiary,
-                ),
+              color: dark ? AppColors.nightMuted : AppColors.textTertiary,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
 
@@ -127,12 +153,20 @@ class _MonkScaleSliderState extends State<MonkScaleSlider> {
                             border: isInspected
                                 ? Border.all(color: AppColors.clay, width: 2.5)
                                 : isMatch
-                                    ? Border.all(color: AppColors.marigold, width: 2)
-                                    : Border.all(color: Colors.black.withValues(alpha: 0.1), width: 1),
+                                ? Border.all(
+                                    color: AppColors.marigold,
+                                    width: 2,
+                                  )
+                                : Border.all(
+                                    color: Colors.black.withValues(alpha: 0.1),
+                                    width: 1,
+                                  ),
                             boxShadow: isInspected
                                 ? [
                                     BoxShadow(
-                                      color: _parseHex(widget.monkColors[index]).withValues(alpha: 0.6),
+                                      color: _parseHex(
+                                        widget.monkColors[index],
+                                      ).withValues(alpha: 0.6),
                                       blurRadius: 8,
                                       offset: const Offset(0, 3),
                                     ),
@@ -143,11 +177,18 @@ class _MonkScaleSliderState extends State<MonkScaleSlider> {
                         const SizedBox(height: 6),
                         AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 180),
-                          style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          style: Theme.of(context).textTheme.labelSmall!
+                              .copyWith(
                                 color: isInspected
                                     ? AppColors.clay
-                                    : (isMatch ? Theme.of(context).colorScheme.primary : AppColors.textTertiary),
-                                fontWeight: isInspected || isMatch ? FontWeight.w800 : FontWeight.w600,
+                                    : (isMatch
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.primary
+                                          : AppColors.textTertiary),
+                                fontWeight: isInspected || isMatch
+                                    ? FontWeight.w800
+                                    : FontWeight.w600,
                               ),
                           child: Text('$tone'),
                         ),
