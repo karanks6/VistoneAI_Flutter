@@ -52,14 +52,18 @@ class ResultScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: AppSpacing.lg),
                         _ResultMasterCard(
-                          image: image,
-                          tone: result.tone,
-                          undertone: result.undertone,
-                          monkColors: result.monkColors,
-                        )
+                              image: image,
+                              tone: result.tone,
+                              undertone: result.undertone,
+                              monkColors: result.monkColors,
+                            )
                             .animate()
                             .fadeIn(duration: 500.ms)
-                            .slideY(begin: 0.08, end: 0, curve: Curves.easeOutCubic),
+                            .slideY(
+                              begin: 0.08,
+                              end: 0,
+                              curve: Curves.easeOutCubic,
+                            ),
                         const SizedBox(height: AppSpacing.lg),
                         _MetricsRow(
                           toneConfidence: result.toneConfidence,
@@ -71,13 +75,14 @@ class ResultScreen extends ConsumerWidget {
                           detectedTone: result.tone,
                         ).animate().fadeIn(delay: 220.ms).slideY(begin: 0.05),
                         const SizedBox(height: AppSpacing.section),
-                        _UndertoneAdvisory(undertone: result.undertone)
-                            .animate()
-                            .fadeIn(delay: 280.ms),
+                        _UndertoneAdvisory(
+                          undertone: result.undertone,
+                        ).animate().fadeIn(delay: 280.ms),
                         const SizedBox(height: AppSpacing.section),
                         _SwatchesGroup(
                           title: 'Shades to Reach For',
-                          subtitle: 'Wear near your face to brighten your natural complexion.',
+                          subtitle:
+                              'Wear near your face to brighten your natural complexion.',
                           label: 'SIGNATURE HARMONIES',
                           icon: LucideIcons.sparkles,
                           swatches: result.bestColors,
@@ -87,7 +92,8 @@ class ResultScreen extends ConsumerWidget {
                         const SizedBox(height: AppSpacing.section),
                         _SwatchesGroup(
                           title: 'Shades to Pause On',
-                          subtitle: 'Can compete with your undertone. Wear as trousers or accessories instead.',
+                          subtitle:
+                              'Can compete with your undertone. Wear as trousers or accessories instead.',
                           label: 'STYLE AWAY FROM FACE',
                           icon: LucideIcons.minusCircle,
                           swatches: result.avoidColors,
@@ -111,8 +117,11 @@ class ResultScreen extends ConsumerWidget {
                           child: Text(
                             'Your personal colouring is unique. Use this palette as your creative playground.',
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: dark ? AppColors.nightMuted : AppColors.textTertiary,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: dark
+                                      ? AppColors.nightMuted
+                                      : AppColors.textTertiary,
                                 ),
                           ),
                         ),
@@ -134,19 +143,24 @@ class _ResultLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: AppPageBackdrop(
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(color: Theme.of(context).colorScheme.primary),
-                const SizedBox(height: 16),
-                Text('Preparing your color profile...', style: Theme.of(context).textTheme.bodyMedium),
-              ],
+    body: AppPageBackdrop(
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.primary,
             ),
-          ),
+            const SizedBox(height: 16),
+            Text(
+              'Preparing your color profile...',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class _ResultHeader extends StatelessWidget {
@@ -157,34 +171,42 @@ class _ResultHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        children: [
-          AppIconButton(icon: LucideIcons.arrowLeft, semanticLabel: 'Return home', onTap: onBack),
-          const SizedBox(width: 14),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'YOUR COLOUR PROFILE',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                      letterSpacing: 1.4,
-                      fontWeight: FontWeight.w800,
-                    ),
+    children: [
+      AppIconButton(
+        icon: LucideIcons.arrowLeft,
+        semanticLabel: 'Return home',
+        onTap: onBack,
+      ),
+      const SizedBox(width: 14),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'YOUR COLOUR PROFILE',
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                letterSpacing: 1.4,
+                fontWeight: FontWeight.w800,
               ),
-              Text(
-                'Monk Skin Tone Calibration',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textTertiary),
-              ),
-            ],
-          ),
-          const Spacer(),
-          AppIconButton(
-            icon: LucideIcons.share2,
-            semanticLabel: 'Share palette summary',
-            onTap: onShare,
-          ),
-        ],
-      );
+            ),
+            Text(
+              'Monk Skin Tone Calibration',
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppColors.textTertiary),
+            ),
+          ],
+        ),
+      ),
+      const SizedBox(width: 10),
+      AppIconButton(
+        icon: LucideIcons.share2,
+        semanticLabel: 'Share palette summary',
+        onTap: onShare,
+      ),
+    ],
+  );
 }
 
 class _ResultMasterCard extends StatelessWidget {
@@ -255,7 +277,10 @@ class _ResultMasterCard extends StatelessWidget {
                   top: 16,
                   left: 16,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 11,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.night.withValues(alpha: 0.65),
                       borderRadius: BorderRadius.circular(AppRadii.pill),
@@ -266,11 +291,16 @@ class _ResultMasterCard extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(LucideIcons.badgeCheck, size: 14, color: AppColors.marigold),
+                        const Icon(
+                          LucideIcons.badgeCheck,
+                          size: 14,
+                          color: AppColors.marigold,
+                        ),
                         const SizedBox(width: 6),
                         Text(
                           'ANALYSIS VERIFIED',
-                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(
                                 color: AppColors.textInverse,
                                 letterSpacing: 1.1,
                                 fontWeight: FontWeight.w700,
@@ -289,7 +319,8 @@ class _ResultMasterCard extends StatelessWidget {
                     children: [
                       Text(
                         'Your Natural Palette',
-                        style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                        style: Theme.of(context).textTheme.displaySmall
+                            ?.copyWith(
                               color: AppColors.textInverse,
                               fontSize: 28,
                             ),
@@ -313,7 +344,10 @@ class _ResultMasterCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: toneColor,
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: AppColors.textInverse.withValues(alpha: 0.3), width: 2),
+                    border: Border.all(
+                      color: AppColors.textInverse.withValues(alpha: 0.3),
+                      width: 2,
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: toneColor.withValues(alpha: 0.5),
@@ -328,19 +362,19 @@ class _ResultMasterCard extends StatelessWidget {
                       Text(
                         'MST',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: AppColors.night,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 10,
-                            ),
+                          color: AppColors.night,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 10,
+                        ),
                       ),
                       Text(
                         '$tone'.padLeft(2, '0'),
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: AppColors.night,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 24,
-                              height: 1.05,
-                            ),
+                          color: AppColors.night,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 24,
+                          height: 1.05,
+                        ),
                       ),
                     ],
                   ),
@@ -352,24 +386,32 @@ class _ResultMasterCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            '$undertone Undertone',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                  color: AppColors.textInverse,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                          Flexible(
+                            child: Text(
+                              '$undertone Undertone',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(
+                                    color: AppColors.textInverse,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                            ),
                           ),
                           const SizedBox(width: 6),
-                          const Icon(LucideIcons.sparkle, size: 16, color: AppColors.marigold),
+                          const Icon(
+                            LucideIcons.sparkle,
+                            size: 16,
+                            color: AppColors.marigold,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 3),
                       Text(
                         'Harmonized with your biological light reflection and depth.',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: AppColors.nightMuted,
-                              height: 1.35,
-                            ),
+                          color: AppColors.nightMuted,
+                          height: 1.35,
+                        ),
                       ),
                     ],
                   ),
@@ -443,26 +485,26 @@ class _MetricItem extends StatelessWidget {
           Text(
             value,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 22,
-                ),
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w800,
+              fontSize: 22,
+            ),
           ),
           const SizedBox(height: 2),
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: AppColors.textTertiary,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.0,
-                ),
+              color: AppColors.textTertiary,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.0,
+            ),
           ),
           Text(
             sub,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontSize: 10,
-                  color: AppColors.textTertiary,
-                ),
+              fontSize: 10,
+              color: AppColors.textTertiary,
+            ),
           ),
         ],
       ),
@@ -481,8 +523,12 @@ class _UndertoneAdvisory extends StatelessWidget {
 
     return AppCard(
       padding: const EdgeInsets.all(18),
-      backgroundColor: isDark ? AppColors.nightSurfaceRaised : AppColors.surfaceSage,
-      borderColor: isDark ? AppColors.nightLine : AppColors.sage.withValues(alpha: 0.5),
+      backgroundColor: isDark
+          ? AppColors.nightSurfaceRaised
+          : AppColors.surfaceSage,
+      borderColor: isDark
+          ? AppColors.nightLine
+          : AppColors.sage.withValues(alpha: 0.5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -499,15 +545,15 @@ class _UndertoneAdvisory extends StatelessWidget {
                 Text(
                   'What this means for styling',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'Your $undertone undertone harmonizes best with shades having similar color temperature. Tap any color swatch to enter the virtual draping studio.',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        height: 1.4,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(height: 1.4),
                 ),
               ],
             ),
@@ -539,7 +585,9 @@ class _SwatchesGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accentColor = isAvoid ? AppColors.clay : Theme.of(context).colorScheme.primary;
+    final accentColor = isAvoid
+        ? AppColors.clay
+        : Theme.of(context).colorScheme.primary;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -551,10 +599,10 @@ class _SwatchesGroup extends StatelessWidget {
             Text(
               label,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: accentColor,
-                    letterSpacing: 1.3,
-                    fontWeight: FontWeight.w800,
-                  ),
+                color: accentColor,
+                letterSpacing: 1.3,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ],
         ),
@@ -563,9 +611,9 @@ class _SwatchesGroup extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           subtitle,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.textTertiary,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: AppColors.textTertiary),
         ),
         const SizedBox(height: 16),
         SizedBox(
@@ -579,13 +627,20 @@ class _SwatchesGroup extends StatelessWidget {
             itemBuilder: (context, index) {
               final swatch = swatches[index];
               return ColorSwatchCard(
-                swatch: swatch,
-                isAvoid: isAvoid,
-                onTap: () => context.push(
-                  '/color-preview',
-                  extra: {'swatch': swatch, 'isAvoid': isAvoid, 'undertone': undertone},
-                ),
-              ).animate().fadeIn(delay: Duration(milliseconds: 60 * index)).slideX(begin: 0.08);
+                    swatch: swatch,
+                    isAvoid: isAvoid,
+                    onTap: () => context.push(
+                      '/color-preview',
+                      extra: {
+                        'swatch': swatch,
+                        'isAvoid': isAvoid,
+                        'undertone': undertone,
+                      },
+                    ),
+                  )
+                  .animate()
+                  .fadeIn(delay: Duration(milliseconds: 60 * index))
+                  .slideX(begin: 0.08);
             },
           ),
         ),
