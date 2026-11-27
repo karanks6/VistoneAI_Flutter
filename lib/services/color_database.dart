@@ -9,7 +9,9 @@ class ColorDatabase {
   Future<void> load() async {
     if (_db != null) return;
     try {
-      final jsonString = await rootBundle.loadString('assets/monk_skin_tone_color_recommendations.json');
+      final jsonString = await rootBundle.loadString(
+        'assets/monk_skin_tone_color_recommendations.json',
+      );
       _db = json.decode(jsonString) as Map<String, dynamic>;
     } catch (e) {
       debugPrint('Failed to load color recommendations: $e');
@@ -17,11 +19,14 @@ class ColorDatabase {
     }
   }
 
-  Map<String, List<ColorSwatch>> getRecommendations(int tone, String undertone) {
+  Map<String, List<ColorSwatch>> getRecommendations(
+    int tone,
+    String undertone,
+  ) {
     if (_db == null) {
       return {'best': [], 'avoid': []};
     }
-    
+
     final block = _db!['tone_$tone'] as Map<String, dynamic>?;
     if (block == null) return {'best': [], 'avoid': []};
 
@@ -47,6 +52,22 @@ class ColorDatabase {
     }
 
     return {'best': best, 'avoid': avoid};
+  }
+
+  /// Returns the seasonal color profile label (e.g. 'Deep Autumn') for
+  /// [tone] (1-10) and [undertone], or null if unavailable.
+  String? getSeason(int tone, String undertone) {
+    if (_db == null) return null;
+    final block = _db!['tone_$tone'] as Map<String, dynamic>?;
+    if (block == null) return null;
+
+    final ut = undertone.toLowerCase();
+    Map<String, dynamic>? data = block[ut] as Map<String, dynamic>?;
+    data ??= block['neutral'] as Map<String, dynamic>?;
+    data ??= block['default'] as Map<String, dynamic>?;
+
+    final season = data?['season'] as String?;
+    return (season != null && season.trim().isNotEmpty) ? season : null;
   }
 }
 
