@@ -112,6 +112,78 @@ void main() {
               expect(swatch.name.trim(), isNotEmpty);
               expect(hexPattern.hasMatch(swatch.hex), isTrue);
             }
+
+            final uniqueNames = [
+              ...best,
+              ...avoid,
+            ].map((s) => s.name.toLowerCase()).toSet();
+            final uniqueHexes = [
+              ...best,
+              ...avoid,
+            ].map((s) => s.hex.toUpperCase()).toSet();
+            expect(
+              uniqueNames.length,
+              equals(12),
+              reason:
+                  'Expected 12 unique names for tone=$tone undertone=$undertone',
+            );
+            expect(
+              uniqueHexes.length,
+              equals(12),
+              reason:
+                  'Expected 12 unique hexes for tone=$tone undertone=$undertone',
+            );
+
+            final season = colorDatabase.getSeason(tone, undertone);
+            expect(
+              season,
+              isNotNull,
+              reason:
+                  'Expected season label for tone=$tone undertone=$undertone',
+            );
+            expect(season!.trim(), isNotEmpty);
+          }
+        }
+      },
+    );
+
+    test(
+      'aligns seasonal labels and deep-tone luminous contrast accurately',
+      () async {
+        await colorDatabase.load();
+
+        expect(colorDatabase.getSeason(1, 'cool'), equals('Light Summer'));
+        expect(colorDatabase.getSeason(3, 'warm'), equals('Warm Spring'));
+        expect(colorDatabase.getSeason(5, 'warm'), equals('True Autumn'));
+        expect(colorDatabase.getSeason(7, 'cool'), equals('Deep Winter'));
+
+        // MST 9 cool icy swatch must actually have high HSL lightness
+        final mst9Cool = colorDatabase.getRecommendations(9, 'cool')['best']!;
+        final icySwatch = mst9Cool.firstWhere(
+          (s) => s.name.toLowerCase().contains('icy'),
+        );
+        final icyRgb = int.parse(icySwatch.hex.substring(1), radix: 16);
+        final icyColor = Color(0xFF000000 | icyRgb);
+        expect(HSLColor.fromColor(icyColor).lightness, greaterThan(0.75));
+
+        // MST 8-10 best palettes include luminous contrast colors (not just dark blacks)
+        for (final tone in [8, 9, 10]) {
+          for (final ut in ['warm', 'cool', 'neutral']) {
+            final best = colorDatabase.getRecommendations(tone, ut)['best']!;
+            final maxLightness = best
+                .map(
+                  (s) => HSLColor.fromColor(
+                    Color(
+                      0xFF000000 | int.parse(s.hex.substring(1), radix: 16),
+                    ),
+                  ).lightness,
+                )
+                .reduce((a, b) => a > b ? a : b);
+            expect(
+              maxLightness,
+              greaterThan(0.75),
+              reason: 'Expected high-contrast highlight for tone=$tone $ut',
+            );
           }
         }
       },
