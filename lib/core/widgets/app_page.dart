@@ -77,55 +77,94 @@ class AppIconButton extends StatefulWidget {
 
 class _AppIconButtonState extends State<AppIconButton> {
   bool _pressed = false;
+  bool _focused = false;
+
+  void _trigger() {
+    HapticFeedback.lightImpact();
+    widget.onTap();
+  }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
     final fill = widget.inverted
         ? AppColors.textInverse.withValues(alpha: .15)
         : (isDark ? AppColors.nightSurfaceRaised : AppColors.surface);
     final foreground = widget.inverted
         ? AppColors.textInverse
         : (isDark ? AppColors.nightText : AppColors.ink);
-    final border = widget.inverted
-        ? Border.all(
-            color: AppColors.textInverse.withValues(alpha: .18),
-            width: 1,
-          )
-        : Border.all(
-            color: isDark ? AppColors.nightLine : AppColors.line,
-            width: 1,
-          );
+    final focusColor = widget.inverted
+        ? AppColors.marigold
+        : (isDark ? AppColors.marigold : AppColors.forestDeep);
+    final border = _focused
+        ? Border.all(color: focusColor, width: 2.5)
+        : (widget.inverted
+              ? Border.all(
+                  color: AppColors.textInverse.withValues(alpha: .18),
+                  width: 1,
+                )
+              : Border.all(
+                  color: isDark ? AppColors.nightLine : AppColors.line,
+                  width: 1,
+                ));
 
-    return Semantics(
-      button: true,
-      label: widget.semanticLabel,
-      child: AnimatedScale(
-        duration: const Duration(milliseconds: 110),
-        scale: _pressed ? 0.90 : 1.0,
-        curve: Curves.easeOutCubic,
-        child: Container(
-          width: 46,
-          height: 46,
-          decoration: BoxDecoration(
-            color: fill,
-            shape: BoxShape.circle,
-            border: border,
-          ),
-          child: Material(
-            color: Colors.transparent,
-            shape: const CircleBorder(),
-            child: InkWell(
-              onTap: () {
-                HapticFeedback.lightImpact();
-                widget.onTap();
-              },
-              onTapDown: (_) => setState(() => _pressed = true),
-              onTapCancel: () => setState(() => _pressed = false),
-              onTapUp: (_) => setState(() => _pressed = false),
-              customBorder: const CircleBorder(),
-              child: Center(
-                child: Icon(widget.icon, size: 20, color: foreground),
+    return FocusableActionDetector(
+      mouseCursor: SystemMouseCursors.click,
+      onShowFocusHighlight: (focused) => setState(() => _focused = focused),
+      actions: {
+        ActivateIntent: CallbackAction<ActivateIntent>(
+          onInvoke: (_) {
+            _trigger();
+            return null;
+          },
+        ),
+        ButtonActivateIntent: CallbackAction<ButtonActivateIntent>(
+          onInvoke: (_) {
+            _trigger();
+            return null;
+          },
+        ),
+      },
+      child: Semantics(
+        container: true,
+        button: true,
+        enabled: true,
+        focusable: true,
+        focused: _focused,
+        label: widget.semanticLabel,
+        onTap: _trigger,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+          child: AnimatedScale(
+            duration: reduceMotion
+                ? Duration.zero
+                : const Duration(milliseconds: 110),
+            scale: (_pressed && !reduceMotion) ? 0.90 : 1.0,
+            curve: Curves.easeOutCubic,
+            child: ExcludeSemantics(
+              child: Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: fill,
+                  shape: BoxShape.circle,
+                  border: border,
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    onTap: _trigger,
+                    onTapDown: (_) => setState(() => _pressed = true),
+                    onTapCancel: () => setState(() => _pressed = false),
+                    onTapUp: (_) => setState(() => _pressed = false),
+                    customBorder: const CircleBorder(),
+                    child: Center(
+                      child: Icon(widget.icon, size: 20, color: foreground),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
