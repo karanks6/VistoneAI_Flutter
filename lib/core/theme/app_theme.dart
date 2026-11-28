@@ -16,6 +16,16 @@ class VistoneThemeTokens extends ThemeExtension<VistoneThemeTokens> {
   final Color accentGold;
   final Color tagBackground;
   final Color tagText;
+  final Color studioCanvas;
+  final Color studioInk;
+  final Color frostedCardFill;
+  final Color frostedCardBorder;
+  final Color mintBadgeFill;
+  final Color mintBadgeForeground;
+  final Color emeraldBannerStart;
+  final Color emeraldBannerEnd;
+  final Color onBannerText;
+  final Color onBannerMuted;
 
   const VistoneThemeTokens({
     required this.cardBackground,
@@ -29,6 +39,16 @@ class VistoneThemeTokens extends ThemeExtension<VistoneThemeTokens> {
     required this.accentGold,
     required this.tagBackground,
     required this.tagText,
+    required this.studioCanvas,
+    required this.studioInk,
+    required this.frostedCardFill,
+    required this.frostedCardBorder,
+    required this.mintBadgeFill,
+    required this.mintBadgeForeground,
+    required this.emeraldBannerStart,
+    required this.emeraldBannerEnd,
+    required this.onBannerText,
+    required this.onBannerMuted,
   });
 
   @override
@@ -44,6 +64,16 @@ class VistoneThemeTokens extends ThemeExtension<VistoneThemeTokens> {
     Color? accentGold,
     Color? tagBackground,
     Color? tagText,
+    Color? studioCanvas,
+    Color? studioInk,
+    Color? frostedCardFill,
+    Color? frostedCardBorder,
+    Color? mintBadgeFill,
+    Color? mintBadgeForeground,
+    Color? emeraldBannerStart,
+    Color? emeraldBannerEnd,
+    Color? onBannerText,
+    Color? onBannerMuted,
   }) {
     return VistoneThemeTokens(
       cardBackground: cardBackground ?? this.cardBackground,
@@ -57,6 +87,16 @@ class VistoneThemeTokens extends ThemeExtension<VistoneThemeTokens> {
       accentGold: accentGold ?? this.accentGold,
       tagBackground: tagBackground ?? this.tagBackground,
       tagText: tagText ?? this.tagText,
+      studioCanvas: studioCanvas ?? this.studioCanvas,
+      studioInk: studioInk ?? this.studioInk,
+      frostedCardFill: frostedCardFill ?? this.frostedCardFill,
+      frostedCardBorder: frostedCardBorder ?? this.frostedCardBorder,
+      mintBadgeFill: mintBadgeFill ?? this.mintBadgeFill,
+      mintBadgeForeground: mintBadgeForeground ?? this.mintBadgeForeground,
+      emeraldBannerStart: emeraldBannerStart ?? this.emeraldBannerStart,
+      emeraldBannerEnd: emeraldBannerEnd ?? this.emeraldBannerEnd,
+      onBannerText: onBannerText ?? this.onBannerText,
+      onBannerMuted: onBannerMuted ?? this.onBannerMuted,
     );
   }
 
@@ -70,11 +110,41 @@ class VistoneThemeTokens extends ThemeExtension<VistoneThemeTokens> {
       subtleBorder: Color.lerp(subtleBorder, other.subtleBorder, t)!,
       glassFill: Color.lerp(glassFill, other.glassFill, t)!,
       glassBorder: Color.lerp(glassBorder, other.glassBorder, t)!,
-      accentTerracotta: Color.lerp(accentTerracotta, other.accentTerracotta, t)!,
+      accentTerracotta: Color.lerp(
+        accentTerracotta,
+        other.accentTerracotta,
+        t,
+      )!,
       accentBotanical: Color.lerp(accentBotanical, other.accentBotanical, t)!,
       accentGold: Color.lerp(accentGold, other.accentGold, t)!,
       tagBackground: Color.lerp(tagBackground, other.tagBackground, t)!,
       tagText: Color.lerp(tagText, other.tagText, t)!,
+      studioCanvas: Color.lerp(studioCanvas, other.studioCanvas, t)!,
+      studioInk: Color.lerp(studioInk, other.studioInk, t)!,
+      frostedCardFill: Color.lerp(frostedCardFill, other.frostedCardFill, t)!,
+      frostedCardBorder: Color.lerp(
+        frostedCardBorder,
+        other.frostedCardBorder,
+        t,
+      )!,
+      mintBadgeFill: Color.lerp(mintBadgeFill, other.mintBadgeFill, t)!,
+      mintBadgeForeground: Color.lerp(
+        mintBadgeForeground,
+        other.mintBadgeForeground,
+        t,
+      )!,
+      emeraldBannerStart: Color.lerp(
+        emeraldBannerStart,
+        other.emeraldBannerStart,
+        t,
+      )!,
+      emeraldBannerEnd: Color.lerp(
+        emeraldBannerEnd,
+        other.emeraldBannerEnd,
+        t,
+      )!,
+      onBannerText: Color.lerp(onBannerText, other.onBannerText, t)!,
+      onBannerMuted: Color.lerp(onBannerMuted, other.onBannerMuted, t)!,
     );
   }
 
@@ -87,9 +157,19 @@ class VistoneThemeTokens extends ThemeExtension<VistoneThemeTokens> {
     glassBorder: Color(0x33E4E1D9),
     accentTerracotta: AppColors.clay,
     accentBotanical: AppColors.forest,
-    accentGold: AppColors.marigold,
+    accentGold: AppColors.warning,
     tagBackground: AppColors.surfaceSage,
     tagText: AppColors.forestDeep,
+    studioCanvas: AppColors.silkCanvas,
+    studioInk: AppColors.forestInk,
+    frostedCardFill: AppColors.silkCard,
+    frostedCardBorder: AppColors.line,
+    mintBadgeFill: AppColors.sageBadgeLight,
+    mintBadgeForeground: AppColors.forestDeep,
+    emeraldBannerStart: AppColors.emeraldBannerStart,
+    emeraldBannerEnd: AppColors.emeraldBannerEnd,
+    onBannerText: AppColors.textInverse,
+    onBannerMuted: AppColors.bannerMutedMint,
   );
 
   static const dark = VistoneThemeTokens(
@@ -104,6 +184,16 @@ class VistoneThemeTokens extends ThemeExtension<VistoneThemeTokens> {
     accentGold: AppColors.marigold,
     tagBackground: AppColors.nightSurfaceRaised,
     tagText: AppColors.sage,
+    studioCanvas: AppColors.emeraldNight,
+    studioInk: AppColors.nightText,
+    frostedCardFill: AppColors.emeraldNightCard,
+    frostedCardBorder: AppColors.emeraldNightCardBorder,
+    mintBadgeFill: AppColors.sageBadgeDark,
+    mintBadgeForeground: AppColors.sageSoft,
+    emeraldBannerStart: AppColors.emeraldBannerStart,
+    emeraldBannerEnd: AppColors.emeraldBannerEnd,
+    onBannerText: AppColors.nightText,
+    onBannerMuted: AppColors.bannerMutedMint,
   );
 }
 
@@ -131,8 +221,8 @@ class AppTheme {
         brightness: brightness,
         primary: isDark ? AppColors.sage : AppColors.forest,
         onPrimary: isDark ? AppColors.ink : AppColors.textInverse,
-        secondary: AppColors.clay,
-        onSecondary: AppColors.textInverse,
+        secondary: isDark ? AppColors.clay : const Color(0xFFB34D32),
+        onSecondary: isDark ? AppColors.ink : AppColors.textInverse,
         error: AppColors.error,
         onError: AppColors.textInverse,
         surface: surface,
@@ -153,14 +243,20 @@ class AppTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: isDark ? AppColors.nightSurfaceRaised : AppColors.ink,
-        contentTextStyle: text.bodyMedium?.copyWith(color: AppColors.textInverse),
+        contentTextStyle: text.bodyMedium?.copyWith(
+          color: AppColors.textInverse,
+        ),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.md)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadii.md),
+        ),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: Colors.transparent,
         modalBackgroundColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.sheet)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadii.sheet),
+        ),
       ),
     );
   }
