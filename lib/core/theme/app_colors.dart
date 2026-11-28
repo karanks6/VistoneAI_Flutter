@@ -27,14 +27,14 @@ class AppColors {
   static const Color lineStrong = Color(0xFFCFCBC2);
 
   static const Color textPrimary = ink;
-  static const Color textSecondary = Color(0xFF66736E);
-  static const Color textTertiary = Color(0xFF89918D);
+  static const Color textSecondary = Color(0xFF525F5A);
+  static const Color textTertiary = Color(0xFF5A6662);
   static const Color textDisabled = Color(0xFFADB3B0);
   static const Color textInverse = Color(0xFFFFFEFA);
 
-  static const Color success = Color(0xFF438266);
+  static const Color success = Color(0xFF2C6B50);
   static const Color successSoft = Color(0xFFE5F2E9);
-  static const Color warning = Color(0xFFB67A25);
+  static const Color warning = Color(0xFF875610);
   static const Color warningSoft = Color(0xFFFFF1D6);
   static const Color error = Color(0xFFB54E4E);
   static const Color errorSoft = Color(0xFFFBE9E7);
@@ -45,6 +45,20 @@ class AppColors {
   static const Color nightLine = Color(0xFF34443E);
   static const Color nightText = Color(0xFFF2F1EA);
   static const Color nightMuted = Color(0xFFB4BDB6);
+
+  // Studio Home-aligned editorial tokens (Light & Dark botanical atelier)
+  static const Color silkCanvas = Color(0xFFFAF7F2);
+  static const Color silkCard = Color(0xFFFBF8F3);
+  static const Color emeraldNight = Color(0xFF0C1E1B);
+  static const Color emeraldNightCard = Color(0xFF152923);
+  static const Color emeraldNightCardBorder = Color(0xFF28473D);
+  static const Color forestInk = Color(0xFF0C251C);
+  static const Color emeraldBannerStart = Color(0xFF0B2C23);
+  static const Color emeraldBannerEnd = Color(0xFF144436);
+  static const Color sageBadgeLight = Color(0xFFDCECE2);
+  static const Color sageBadgeDark = Color(0xFF21443A);
+  static const Color bannerMutedMint = Color(0xFFE2EBE5);
+  static const Color sparkleGold = Color(0xFFE8B75D);
 
   // Compatibility aliases keep lower-level widgets concise.
   static const Color primary = forest;
